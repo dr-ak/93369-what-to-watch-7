@@ -1,6 +1,6 @@
 # Личный проект «Что посмотреть»
 
-* Студент: [Александр Карпенко](https://up.htmlacademy.ru/react/7/user/93369).
+* Студент: [Александр Карпенко](https://htmlacademy.ru/profile/id93369).
 * Наставник: [Артём Рудов](https://htmlacademy.ru/profile/artrudov).
 
 ---
