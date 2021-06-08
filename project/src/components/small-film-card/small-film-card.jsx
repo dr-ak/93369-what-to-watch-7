@@ -1,9 +1,6 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 function SmallFilmCard() {
-  // const {errorsCount} = props;
-
   return (
     <article className="small-film-card catalog__films-card">
       <div className="small-film-card__image">
@@ -15,9 +12,5 @@ function SmallFilmCard() {
     </article>
   );
 }
-
-// WelcomeScreen.propTypes = {
-//   errorsCount: PropTypes.number.isRequired,
-// };
 
 export default SmallFilmCard;

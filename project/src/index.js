@@ -1,14 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import App from './components/app/app';
 
-const data = {
-  title: 'The Grand Budapest Hotel',
-  date: 2014,
+const film = {
+  name: 'The Grand Budapest Hotel',
+  released: 2014,
+  genre: 'Drama',
 };
 
 ReactDOM.render(
   <React.StrictMode>
-    <App data = {data}/>
+    <App film = {film}/>
   </React.StrictMode>,
   document.getElementById('root'));

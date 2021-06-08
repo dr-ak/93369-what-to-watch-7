@@ -1,10 +1,13 @@
 import React from 'react';
-import SmallFilmCard from '../small-film-card/small-film-card';
 import PropTypes from 'prop-types';
 
+import SmallFilmCard from '../small-film-card/small-film-card';
+
+const FILM_COUNT = 20;
+
 function MainPage(props) {
-  const {title, date} = props;
-  const smallFilmCards = new Array(20).fill(null);
+  const {name, released, genre} = props.film;
+  const smallFilmCards = new Array(FILM_COUNT).fill().map((film, index) => index);
 
   return (
     <React.Fragment>
@@ -38,10 +41,10 @@ function MainPage(props) {
               <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width={218} height={327} />
             </div>
             <div className="film-card__desc">
-              <h2 className="film-card__title">{title}</h2>
+              <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">{date}</span>
+                <span className="film-card__genre">{genre}</span>
+                <span className="film-card__year">{released}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
@@ -98,7 +101,7 @@ function MainPage(props) {
           </ul>
           <div className="catalog__films-list">
 
-            {smallFilmCards.map((name) => <SmallFilmCard key={name} name={name} />)}
+            {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
 
           </div>
           <div className="catalog__more">
@@ -123,8 +126,11 @@ function MainPage(props) {
 }
 
 MainPage.propTypes = {
-  title: PropTypes.string.isRequired,
-  date: PropTypes.number.isRequired,
+  film: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    released: PropTypes.number.isRequired,
+    genre: PropTypes.string.isRequired,
+  }),
 };
 
 export default MainPage;
