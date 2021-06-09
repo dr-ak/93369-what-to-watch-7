@@ -1,13 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import SmallFilmCard from '../small-film-card/small-film-card';
+import {Film} from '../types';
 
-const FILM_COUNT = 20;
-
-function MainPage(props) {
-  const {name, released, genre} = props.film;
-  const smallFilmCards = new Array(FILM_COUNT).fill().map((film, index) => index);
+function MainPage(props: Film) {
+  const {name, released, genre} = props;
+  const smallFilmCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   return (
     <React.Fragment>
@@ -101,7 +99,7 @@ function MainPage(props) {
           </ul>
           <div className="catalog__films-list">
 
-            {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
+             {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
 
           </div>
           <div className="catalog__more">
@@ -124,13 +122,5 @@ function MainPage(props) {
     </React.Fragment>
   );
 }
-
-MainPage.propTypes = {
-  film: PropTypes.shape({
-    name: PropTypes.string.isRequired,
-    released: PropTypes.number.isRequired,
-    genre: PropTypes.string.isRequired,
-  }),
-};
 
 export default MainPage;

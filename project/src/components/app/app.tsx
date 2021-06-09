@@ -1,8 +1,7 @@
-import React from 'react';
-
 import MainPage from '../main-page/main-page';
+import {Film} from '../types';
 
-function App(props) {
+function App(props: Film) {
   return (
     <MainPage {...props}/>
   );
