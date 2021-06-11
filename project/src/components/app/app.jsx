@@ -9,10 +9,9 @@ import FilmReview from '../film-review/film-review';
 import Player from '../player/player';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-import {FilmType} from '../types';
 import {AppRoute} from '../../const';
 
-function App(props: FilmType) {
+function App(props) {
   return (
     <BrowserRouter>
       <Switch>

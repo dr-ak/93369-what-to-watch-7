@@ -25,19 +25,7 @@
       "react-app",
       "react-app/jest",
       "htmlacademy/react"
-    ],
-    "rules": {
-      "no-use-before-define": "off",
-      "@typescript-eslint/no-use-before-define": [
-        "error"
-      ],
-      "no-shadow": "off",
-      "@typescript-eslint/no-shadow": [
-        "error"
-      ],
-      "no-unused-vars": "off",
-      "@typescript-eslint/no-unused-vars": "error"
-    }
+    ]
   },
   "browserslist": {
     "production": [
@@ -56,11 +44,6 @@
     "@testing-library/react": "^11.2.0",
     "@testing-library/react-hooks": "^5.1.0",
     "@testing-library/user-event": "^12.8.0",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^15.12.2",
-    "@types/react": "^17.0.9",
-    "@types/react-dom": "^17.0.6",
-    "@types/react-router-dom": "^5.1.7",
     "axios-mock-adapter": "^1.19.0",
     "eslint-config-htmlacademy": "^4.0.1",
     "react-scripts": "^4.0.3",

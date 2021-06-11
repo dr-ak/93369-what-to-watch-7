@@ -1,13 +1,11 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import SmallFilmCard from '../small-film-card/small-film-card';
 import Footer from '../footer/footer';
 
-import {FilmType} from '../types';
-
-function MainPage(props: FilmType) {
-  const {name, released, genre} = props;
+function MainPage({name, released, genre}) {
   const smallFilmCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   return (
@@ -114,5 +112,12 @@ function MainPage(props: FilmType) {
     </React.Fragment>
   );
 }
+
+
+MainPage.propTypes  = {
+  name: PropTypes.string,
+  released: PropTypes.number,
+  genre: PropTypes.string,
+};
 
 export default MainPage;
