@@ -1,10 +1,11 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import SmallFilmCard from '../small-film-card/small-film-card';
-import {Film} from '../types';
+import Footer from '../footer/footer';
 
-function MainPage(props: Film) {
-  const {name, released, genre} = props;
+function MainPage({name, released, genre}) {
   const smallFilmCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
   return (
@@ -16,11 +17,11 @@ function MainPage(props: Film) {
         <h1 className="visually-hidden">WTW</h1>
         <header className="page-header film-card__head">
           <div className="logo">
-            <a className="logo__link">
+            <Link className="logo__link" to="/">
               <span className="logo__letter logo__letter--1">W</span>
               <span className="logo__letter logo__letter--2">T</span>
               <span className="logo__letter logo__letter--3">W</span>
-            </a>
+            </Link>
           </div>
           <ul className="user-block">
             <li className="user-block__item">
@@ -99,28 +100,24 @@ function MainPage(props: Film) {
           </ul>
           <div className="catalog__films-list">
 
-             {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
+            {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
 
           </div>
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
         </section>
-        <footer className="page-footer">
-          <div className="logo">
-            <a className="logo__link logo__link--light">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </a>
-          </div>
-          <div className="copyright">
-            <p>© 2019 What to watch Ltd.</p>
-          </div>
-        </footer>
+        <Footer />
       </div>
     </React.Fragment>
   );
 }
+
+
+MainPage.propTypes  = {
+  name: PropTypes.string,
+  released: PropTypes.number,
+  genre: PropTypes.string,
+};
 
 export default MainPage;
