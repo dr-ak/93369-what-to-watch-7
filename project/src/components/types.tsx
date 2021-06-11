@@ -1,4 +1,4 @@
-export interface Film {
+export interface FilmType {
     // id: number;
     name: string;
     // posterImage: string;
