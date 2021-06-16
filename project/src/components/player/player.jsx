@@ -1,9 +1,11 @@
 import React from 'react';
 
-function Player() {
+import FilmProp from '../film/film.prop';
+
+function Player({film}) {
   return (
     <div className="player">
-      <video src="#" className="player__video" poster="img/player-poster.jpg" />
+      <video src={film.videoLink} className="player__video" poster={film.previewImage} />
       <button type="button" className="player__exit">Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
@@ -11,7 +13,7 @@ function Player() {
             <progress className="player__progress" value={30} max={100} />
             <div className="player__toggler" style={{left: '30%'}}>Toggler</div>
           </div>
-          <div className="player__time-value">1:30:29</div>
+          <div className="player__time-value">0</div>
         </div>
         <div className="player__controls-row">
           <button type="button" className="player__play">
@@ -32,5 +34,9 @@ function Player() {
     </div>
   );
 }
+
+Player.propTypes  = {
+  film: FilmProp,
+};
 
 export default Player;
