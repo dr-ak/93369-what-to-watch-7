@@ -2,16 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import App from './components/app/app';
-import {FilmType} from './components/types';
-
-const film = new FilmType({
-  name: 'The Grand Budapest Hotel',
-  released: 2014,
-  genre: 'Drama',
-});
+import {getFilms, getPromoFilm} from './mocks/films';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App {...film}/>
+    <App
+      films = {getFilms()}
+      promoFilm = {getPromoFilm()}
+    />
   </React.StrictMode>,
   document.getElementById('root'));

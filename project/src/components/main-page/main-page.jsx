@@ -1,49 +1,29 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 
-import SmallFilmCard from '../small-film-card/small-film-card';
+import FilmProp from '../film/film.prop';
+import Header from '../header/header';
+import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
 
-function MainPage({name, released, genre}) {
-  const smallFilmCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
-
+function MainPage({promoFilm, ...props}) {
   return (
     <React.Fragment>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={promoFilm.backgroundImage} alt={promoFilm.name} />
         </div>
         <h1 className="visually-hidden">WTW</h1>
-        <header className="page-header film-card__head">
-          <div className="logo">
-            <Link className="logo__link" to="/">
-              <span className="logo__letter logo__letter--1">W</span>
-              <span className="logo__letter logo__letter--2">T</span>
-              <span className="logo__letter logo__letter--3">W</span>
-            </Link>
-          </div>
-          <ul className="user-block">
-            <li className="user-block__item">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
-              </div>
-            </li>
-            <li className="user-block__item">
-              <a className="user-block__link">Sign out</a>
-            </li>
-          </ul>
-        </header>
+        <Header />
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width={218} height={327} />
+              <img src={promoFilm.posterImage} alt={promoFilm.name} width={218} height={327} />
             </div>
             <div className="film-card__desc">
-              <h2 className="film-card__title">{name}</h2>
+              <h2 className="film-card__title">{promoFilm.name}</h2>
               <p className="film-card__meta">
-                <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{released}</span>
+                <span className="film-card__genre">{promoFilm.genre}</span>
+                <span className="film-card__year">{promoFilm.released}</span>
               </p>
               <div className="film-card__buttons">
                 <button className="btn btn--play film-card__button" type="button">
@@ -98,11 +78,7 @@ function MainPage({name, released, genre}) {
               <a href="#" className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
-          <div className="catalog__films-list">
-
-            {smallFilmCards.map((film) => <SmallFilmCard key={film} />)}
-
-          </div>
+          <FilmList {...props} />
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
@@ -115,9 +91,7 @@ function MainPage({name, released, genre}) {
 
 
 MainPage.propTypes  = {
-  name: PropTypes.string,
-  released: PropTypes.number,
-  genre: PropTypes.string,
+  promoFilm: FilmProp,
 };
 
 export default MainPage;
