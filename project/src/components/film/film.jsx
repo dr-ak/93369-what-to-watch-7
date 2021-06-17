@@ -3,8 +3,6 @@ import {Link} from 'react-router-dom';
 
 import FilmProp from './film.prop';
 import Header from '../header/header';
-// import FilmOverview from '../film-overview/film-overview';
-// import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
@@ -49,8 +47,6 @@ function Film({film, ...props}) {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width={218} height={327} />
             </div>
-            {/* <FilmDetails film={film} /> */}
-            {/* <FilmOverview film={film} /> */}
             <FilmReviews {...props} />
           </div>
         </div>
