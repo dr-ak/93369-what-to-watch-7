@@ -1,17 +1,15 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import FilmProp from './film.prop';
-import CommentProp from '../comment/comment.prop';
 import Header from '../header/header';
 // import FilmOverview from '../film-overview/film-overview';
-import FilmDetails from '../film-details/film-details';
-// import FilmReviews from '../film-reviews/film-reviews';
-import SmallFilmCard from '../small-film-card/small-film-card';
+// import FilmDetails from '../film-details/film-details';
+import FilmReviews from '../film-reviews/film-reviews';
+import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
 
-function Film({film, similarFilms, comments}) {
+function Film({film, ...props}) {
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -51,24 +49,16 @@ function Film({film, similarFilms, comments}) {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width={218} height={327} />
             </div>
-            <FilmDetails film={film} />
+            {/* <FilmDetails film={film} /> */}
             {/* <FilmOverview film={film} /> */}
-            {/* <FilmReviews comments={comments} /> */}
+            <FilmReviews {...props} />
           </div>
         </div>
       </section>
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <div className="catalog__films-list">
-
-            {similarFilms.map((similarFilm) =>(
-              <SmallFilmCard
-                key={similarFilm.id}
-                film={similarFilm}
-              />))}
-
-          </div>
+          <FilmList {...props} />
         </section>
         <Footer />
       </div>
@@ -78,8 +68,6 @@ function Film({film, similarFilms, comments}) {
 
 Film.propTypes  = {
   film: FilmProp,
-  similarFilms: PropTypes.arrayOf(FilmProp),
-  comments: PropTypes.arrayOf(CommentProp),
 };
 
 export default Film;

@@ -1,12 +1,11 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import FilmProp from '../film/film.prop';
 import Header from '../header/header';
-import SmallFilmCard from '../small-film-card/small-film-card';
+import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
 
-function MainPage({films, promoFilm}) {
+function MainPage({promoFilm, ...props}) {
   return (
     <React.Fragment>
       <section className="film-card">
@@ -79,16 +78,7 @@ function MainPage({films, promoFilm}) {
               <a href="#" className="catalog__genres-link">Thrillers</a>
             </li>
           </ul>
-          <div className="catalog__films-list">
-
-            {films.map((film) => (
-              <SmallFilmCard
-                key={film.id}
-                film={film}
-              />
-            ))}
-
-          </div>
+          <FilmList {...props} />
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
           </div>
@@ -101,7 +91,6 @@ function MainPage({films, promoFilm}) {
 
 
 MainPage.propTypes  = {
-  films: PropTypes.arrayOf(FilmProp),
   promoFilm: FilmProp,
 };
 

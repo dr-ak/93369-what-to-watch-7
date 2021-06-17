@@ -1,6 +1,8 @@
 import {adaptFilmToClient} from '../adapters';
 
 const PROMO_FILM = 1;
+const SIMILAR_FILMS_COUNT = 4;
+const MY_LIST_COUNT = 6;
 
 const films =  [
   {
@@ -192,6 +194,6 @@ const films =  [
 export const getFilms = () => films.map((film) => adaptFilmToClient(film));
 export const getFilm = (id) => adaptFilmToClient(films.find((film) => film.id === Number(id)));
 export const getPromoFilm = () => adaptFilmToClient(films.find((film) => film.id === PROMO_FILM));
-export const getSimilarFilms = (id) => getFilms().slice(0, 4);
-export const getMyList = () => getFilms().slice(0, 6);
+export const getSimilarFilms = (id) => getFilms().slice(0, SIMILAR_FILMS_COUNT);
+export const getMyList = () => getFilms().slice(0, MY_LIST_COUNT);
 

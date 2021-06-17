@@ -10,19 +10,24 @@ const Score = {
   AWESOME: {name: 'Awesome'},
 };
 
+const getFilmScore = (filmRating) => {
+  if (filmRating < Score.BAD.val) {
+    return Score.BAD.name;
+  }
+  if (filmRating < Score.NORMAL.val) {
+    return Score.NORMAL.name;
+  }
+  if (filmRating < Score.GOOD.val) {
+    return Score.GOOD.name;
+  }
+  if (filmRating < Score.VERY_GOOD.val) {
+    return Score.VERY_GOOD.name;
+  }
+  return Score.AWESOME.name;
+};
+
 
 function FilmOverview({film}) {
-  let filmScore = Score.AWESOME.name;
-  if (film.rating < Score.BAD.val) {
-    filmScore = Score.BAD.name;
-  } else if (film.rating < Score.NORMAL.val) {
-    filmScore = Score.NORMAL.name;
-  } else if (film.rating < Score.GOOD.val) {
-    filmScore = Score.GOOD.name;
-  } else if (film.rating < Score.VERY_GOOD.val) {
-    filmScore = Score.VERY_GOOD.name;
-  }
-
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
@@ -41,7 +46,7 @@ function FilmOverview({film}) {
       <div className="film-rating">
         <div className="film-rating__score">{film.rating}</div>
         <p className="film-rating__meta">
-          <span className="film-rating__level">{filmScore}</span>
+          <span className="film-rating__level">{getFilmScore(film.rating)}</span>
           <span className="film-rating__count">{film.scoresCount} ratings</span>
         </p>
       </div>

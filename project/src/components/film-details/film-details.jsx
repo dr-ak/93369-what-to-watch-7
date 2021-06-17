@@ -4,6 +4,9 @@ import {formatRuntime} from '../../utils/format-time';
 import FilmProp from '../film/film.prop';
 
 function FilmDetails({film}) {
+  const starring = film.starring.join(', :').split(' :').map((star, index) =>
+    (<React.Fragment key={star}>{star}{index !== film.starring.length - 1 && (<br/>)}</React.Fragment>));
+
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
@@ -28,8 +31,7 @@ function FilmDetails({film}) {
           <p className="film-card__details-item">
             <strong className="film-card__details-name">Starring</strong>
             <span className="film-card__details-value">
-              {film.starring.join(', :').split(' :').map((star, index) =>
-                (<React.Fragment key={star}>{star}{index !== film.starring.length - 1 ? (<br/>) : null}</React.Fragment>))}
+              {starring}
             </span>
           </p>
         </div>

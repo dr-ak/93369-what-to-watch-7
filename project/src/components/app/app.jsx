@@ -29,7 +29,7 @@ function App(props) {
         <Route exact path={AppRoute.FILM} render={(data) => (
           <Film
             film={getFilm(data.match.params.id)}
-            similarFilms={getSimilarFilms(data.match.params.id)}
+            films={getSimilarFilms(data.match.params.id)}
             comments={getComments(data.match.params.id)}
           />)}
         />
