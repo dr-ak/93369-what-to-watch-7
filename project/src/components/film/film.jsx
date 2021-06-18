@@ -3,11 +3,13 @@ import {Link} from 'react-router-dom';
 
 import FilmProp from './film.prop';
 import Header from '../header/header';
-import FilmReviews from '../film-reviews/film-reviews';
+import FilmTabs from '../film-tabs/film-tabs';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
 
 function Film({film, ...props}) {
+  props = {film, ...props};
+
   return (
     <React.Fragment>
       <section className="film-card film-card--full">
@@ -47,7 +49,7 @@ function Film({film, ...props}) {
             <div className="film-card__poster film-card__poster--big">
               <img src={film.posterImage} alt={film.name} width={218} height={327} />
             </div>
-            <FilmReviews {...props} />
+            <FilmTabs {...props} />
           </div>
         </div>
       </section>

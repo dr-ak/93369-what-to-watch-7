@@ -3,13 +3,15 @@ import PropTypes from 'prop-types';
 
 import filmProp from '../film/film.prop';
 
+const MSEC_IN_SEC = 1000;
+
 function SmallFilmCardPlayer({film, isActive}) {
   const playerRef = useRef(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       isActive && playerRef.current.play();
-    }, 1000);
+    }, MSEC_IN_SEC);
     return () => clearTimeout(timer);
   }, [isActive]);
 
