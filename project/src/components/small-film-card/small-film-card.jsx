@@ -3,11 +3,12 @@ import {Link} from 'react-router-dom';
 
 import {AppRoute} from '../../const';
 import FilmProp from '../film/film.prop';
+import SmallFilmCardPlayer from '../small-film-card-player/small-film-card-player';
 
 function SmallFilmCard({film}) {
-  const[mouseOverFilm, setMouseOverFilm] = useState(null);
-  const onMouseOverHandler = () => setMouseOverFilm(film);
-  const onMouseOutHandler = () => setMouseOverFilm(null);
+  const[isActive, setIsActive] = useState(false);
+  const onMouseOverHandler = () => setIsActive(true);
+  const onMouseOutHandler = () => setIsActive(false);
 
   return (
     <article className="small-film-card catalog__films-card"
@@ -15,7 +16,7 @@ function SmallFilmCard({film}) {
       onMouseOut={onMouseOutHandler}
     >
       <div className="small-film-card__image">
-        <img src={film.previewImage} alt={film.name} width={280} height={175} />
+        <SmallFilmCardPlayer film={film} isActive={isActive} />
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link" to={AppRoute.FILM.replace(':id', film.id)}>{film.name}</Link>

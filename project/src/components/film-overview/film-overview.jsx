@@ -14,15 +14,19 @@ const getFilmScore = (filmRating) => {
   if (filmRating < Score.BAD.val) {
     return Score.BAD.name;
   }
+
   if (filmRating < Score.NORMAL.val) {
     return Score.NORMAL.name;
   }
+
   if (filmRating < Score.GOOD.val) {
     return Score.GOOD.name;
   }
+
   if (filmRating < Score.VERY_GOOD.val) {
     return Score.VERY_GOOD.name;
   }
+
   return Score.AWESOME.name;
 };
 
