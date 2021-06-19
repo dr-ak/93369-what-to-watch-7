@@ -5,16 +5,18 @@ import Header from '../header/header';
 import Form from '../form/form';
 
 function FilmAddReview({film}) {
+  const {backgroundImage, name, posterImage} = film;
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
         <div className="film-card__bg">
-          <img src={film.backgroundImage} alt={film.name} />
+          <img src={backgroundImage} alt={name} />
         </div>
         <h1 className="visually-hidden">WTW</h1>
-        <Header filmName={film.name} />
+        <Header filmName={name} />
         <div className="film-card__poster film-card__poster--small">
-          <img src={film.posterImage} alt={`${film.name} poster`} width={218} height={327} />
+          <img src={posterImage} alt={`${name} poster`} width={218} height={327} />
         </div>
       </div>
       <div className="add-review">

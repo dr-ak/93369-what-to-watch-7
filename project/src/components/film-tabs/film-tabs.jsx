@@ -5,51 +5,49 @@ import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
 
-const TabTitles = {
-  OVERVIEW: 'Overview',
-  DETAILS: 'Details',
-  REVIEWS: 'Reviews',
+const showOverview = (props) => <FilmOverview {...props} />;
+const showDetails = (props) => <FilmDetails {...props} />;
+const showReviews = (props) => <FilmReviews {...props} />;
+
+const Tabs = {
+  'Overview': showOverview,
+  'Details': showDetails,
+  'Reviews': showReviews,
 };
 
-const ACTIVE_TAB = TabTitles.DETAILS;
+const TAG_NAME = 'A';
+
+const DEFAULT_TAB = 'Details';
 
 function FilmTabs(props) {
-  const [activeTab, setActiveTab] = useState(ACTIVE_TAB);
+  const [activeTab, setActiveTab] = useState(DEFAULT_TAB);
 
   const filmId = useParams().id;
 
   const tabClickHandler = (evt) => {
-    if (evt.target.tagName !== 'A') {
+    if (evt.target.tagName !== TAG_NAME) {
       return;
     }
+
     evt.preventDefault();
+
     setActiveTab(evt.target.innerText);
   };
 
-  const showActiveTab = (tab) => {
-    switch (tab) {
-      case TabTitles.OVERVIEW:
-        return <FilmOverview {...props} />;
-      case TabTitles.DETAILS:
-        return <FilmDetails {...props} />;
-      case TabTitles.REVIEWS:
-        return <FilmReviews {...props} />;
-      default:
-    }
-  };
+  const showNavTabs = (title) => (
+    <li className={`film-nav__item ${(activeTab === title) && 'film-nav__item--active'}`} key={title}>
+      <Link className="film-nav__link" to={`/films/${filmId}`}>{title}</Link>
+    </li>
+  );
 
   return (
     <div className="film-card__desc">
       <nav className="film-nav film-card__nav">
         <ul className="film-nav__list" onClick={tabClickHandler}>
-          {Object.values(TabTitles).map((title) => (
-            <li className={`film-nav__item ${(activeTab === title) && 'film-nav__item--active'}`} key={title}>
-              <Link className="film-nav__link" to={`/films/${filmId}`}>{title}</Link>
-            </li>
-          ))}
+          {Object.keys(Tabs).map(showNavTabs)}
         </ul>
       </nav>
-      {showActiveTab(activeTab)}
+      {Tabs[activeTab](props)}
     </div>
   );
 }

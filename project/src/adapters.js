@@ -26,7 +26,7 @@ export const adaptCommentToClient = (comment) => {
     userId: comment.user.id,
     userName: comment.user.name,
     rating: comment.rating,
-    comment: comment.comment,
+    text: comment.comment,
     date: comment.date,
   };
 };

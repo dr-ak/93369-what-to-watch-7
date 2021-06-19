@@ -4,20 +4,23 @@ import PropTypes from 'prop-types';
 import Comment from '../comment/comment';
 import CommentProp from '../comment/comment.prop';
 
+
 function FilmReviews({comments}) {
-  const rowCount = Math.floor(comments.length / 2);
+
+  const showCommentsColumn = (columnComments) => (
+    <div className="film-card__reviews-col">
+      {columnComments.map((comment) => (
+        <Comment key={comment.id} comment={comment} />
+      ))}
+    </div>
+  );
+
+  const rowCount = Math.floor(comments.length / 2) + 1;
+
   return (
     <div className="film-card__reviews film-card__row">
-      <div className="film-card__reviews-col">
-        {comments.slice(0, rowCount + 1).map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-      </div>
-      <div className="film-card__reviews-col">
-        {comments.slice(rowCount + 1).map((comment) => (
-          <Comment key={comment.id} comment={comment} />
-        ))}
-      </div>
+      {showCommentsColumn(comments.slice(0, rowCount))}
+      {showCommentsColumn(comments.slice(rowCount))}
     </div>
   );
 }
