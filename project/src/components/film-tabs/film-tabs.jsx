@@ -5,14 +5,14 @@ import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
 
-const showOverview = (props) => <FilmOverview {...props} />;
-const showDetails = (props) => <FilmDetails {...props} />;
-const showReviews = (props) => <FilmReviews {...props} />;
+function showTab (Component, props) {
+  return <Component {...props} />;
+}
 
 const Tabs = {
-  'Overview': showOverview,
-  'Details': showDetails,
-  'Reviews': showReviews,
+  'Overview': showTab.bind(null, FilmOverview),
+  'Details': showTab.bind(null, FilmDetails),
+  'Reviews': showTab.bind(null, FilmReviews),
 };
 
 const TAG_NAME = 'A';
