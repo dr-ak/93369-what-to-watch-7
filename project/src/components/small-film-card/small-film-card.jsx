@@ -6,6 +6,8 @@ import FilmProp from '../film/film.prop';
 import SmallFilmCardPlayer from '../small-film-card-player/small-film-card-player';
 
 function SmallFilmCard({film}) {
+  const {id, name} = film;
+
   const[isActive, setIsActive] = useState(false);
   const onMouseOverHandler = () => setIsActive(true);
   const onMouseOutHandler = () => setIsActive(false);
@@ -19,7 +21,7 @@ function SmallFilmCard({film}) {
         <SmallFilmCardPlayer film={film} isActive={isActive} />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={AppRoute.FILM.replace(':id', film.id)}>{film.name}</Link>
+        <Link className="small-film-card__link" to={AppRoute.FILM.replace(':id', id)}>{name}</Link>
       </h3>
     </article>
   );

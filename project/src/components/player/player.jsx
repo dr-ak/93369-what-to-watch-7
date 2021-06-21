@@ -3,9 +3,11 @@ import React from 'react';
 import FilmProp from '../film/film.prop';
 
 function Player({film}) {
+  const {videoLink, previewImage} = film;
+
   return (
     <div className="player">
-      <video src={film.videoLink} className="player__video" poster={film.previewImage} />
+      <video src={videoLink} className="player__video" poster={previewImage} />
       <button type="button" className="player__exit">Exit</button>
       <div className="player__controls">
         <div className="player__controls-row">
