@@ -4,6 +4,7 @@ import {Link, useParams} from 'react-router-dom';
 import FilmOverview from '../film-overview/film-overview';
 import FilmDetails from '../film-details/film-details';
 import FilmReviews from '../film-reviews/film-reviews';
+import {TAG_A_NAME} from '../../const';
 
 function showTab (Component, props) {
   return <Component {...props} />;
@@ -15,8 +16,6 @@ const Tabs = {
   'Reviews': showTab.bind(null, FilmReviews),
 };
 
-const TAG_NAME = 'A';
-
 const DEFAULT_TAB = 'Details';
 
 function FilmTabs(props) {
@@ -25,7 +24,7 @@ function FilmTabs(props) {
   const filmId = useParams().id;
 
   const tabClickHandler = (evt) => {
-    if (evt.target.tagName !== TAG_NAME) {
+    if (evt.target.tagName !== TAG_A_NAME) {
       return;
     }
 
