@@ -2,7 +2,8 @@ import {getFilteredFilms} from '../film';
 
 export const ActionType = {
   SET_FILTER: 'genre/setFilter',
-  RESET_FILTER: 'game/resetFilter',
+  RESET_FILTER: 'genre/resetFilter',
+  INC_COUNT: 'genre/incCount',
 };
 
 export const ActionCreator = {
@@ -16,7 +17,12 @@ export const ActionCreator = {
     return {
       type: ActionType.SET_FILTER,
       genre: genre,
-      films: getFilteredFilms(genre),
+    };
+  },
+
+  incCount: () => {
+    return {
+      type: ActionType.INC_COUNT,
     };
   },
 };

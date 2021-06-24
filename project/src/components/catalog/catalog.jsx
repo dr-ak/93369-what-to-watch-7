@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import FilmProp from '../film/film.prop';
 import {ALL_GENRES, TAG_A_NAME} from '../../const';
 import FilmList from '../film-list/film-list';
+import ShowMore from '../show-more/show-more';
 
 
 const getGenres = (films) => [ALL_GENRES, ...Object.keys(films.reduce((acc, film) => {
@@ -16,7 +17,7 @@ const getGenres = (films) => [ALL_GENRES, ...Object.keys(films.reduce((acc, film
 
 
 function Catalog({films, filmList, genre, onFilteredFilmList, onAllFilmList}) {
-
+  // console.log("AAAAAA")
   const showGenreNavTabs = (title) => (
     <li className={`catalog__genres-item ${genre === title && 'catalog__genres-item--active'}`} key={title}>
       <Link className="catalog__genres-link" to="/">{title}</Link>
@@ -46,9 +47,7 @@ function Catalog({films, filmList, genre, onFilteredFilmList, onAllFilmList}) {
         {getGenres(films).map(showGenreNavTabs)}
       </ul>
       <FilmList films={filmList} />
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      <ShowMore />
     </section>
   );
 }
@@ -59,7 +58,6 @@ Catalog.propTypes  = {
   genre: PropTypes.string.isRequired,
   onFilteredFilmList: PropTypes.func.isRequired,
   onAllFilmList: PropTypes.func.isRequired,
-
 };
 
 const mapStateToProps = (state) => {
