@@ -1,26 +1,23 @@
-import {getFilteredFilms} from '../film';
-
 export const ActionType = {
-  SET_FILTER: 'genre/setFilter',
-  RESET_FILTER: 'genre/resetFilter',
-  INC_COUNT: 'genre/incCount',
+  CHANGE_FILTER: 'genre/changeFilter',
+  SET_ALL_FILMS: 'genre/setAllFilms',
+  INC_COUNT: 'genre/showMore',
 };
 
 export const ActionCreator = {
-  resetFilter: () => {
+  changeFilter: (genre) => {
     return {
-      type: ActionType.RESET_FILTER,
-    };
-  },
-
-  setFilter: (genre) => {
-    return {
-      type: ActionType.SET_FILTER,
+      type: ActionType.CHANGE_FILTER,
       genre: genre,
     };
   },
-
-  incCount: () => {
+  setAllFilms: (films) => {
+    return {
+      type: ActionType.SET_ALL_FILMS,
+      allFilms: films,
+    };
+  },
+  showMore: () => {
     return {
       type: ActionType.INC_COUNT,
     };

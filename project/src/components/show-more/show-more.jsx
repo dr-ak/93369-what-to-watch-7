@@ -3,38 +3,34 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import PropTypes from 'prop-types';
 
-import FilmProp from '../film/film.prop';
-
-function ShowMore({count, filmList, showMore}) {
+function ShowMore({isShowButton, showMore}) {
   const showMoreButtonClick = (evt) => {
-    // console.log("DDDDDDD")
+    evt.preventDefault();
     showMore();
   };
 
   return (
-    <div className={`catalog__more ${count < filmList.length && 'visually-hidden'}`}>
+    <div className={`catalog__more ${!isShowButton && 'visually-hidden'}`}>
       <button className="catalog__button" type="button" onClick={showMoreButtonClick}>Show more</button>
     </div>
   );
 }
 
 ShowMore.propTypes  = {
-  count: PropTypes.number.isRequired,
-  filmList: PropTypes.arrayOf(FilmProp),
+  isShowButton: PropTypes.bool.isRequired,
   showMore: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    count: state.count,
-    filmList: state.films,
+    isShowButton: state.isShowButton,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     showMore() {
-      dispatch(ActionCreator.incCount());
+      dispatch(ActionCreator.showMore());
     },
   };
 };
