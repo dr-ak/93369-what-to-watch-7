@@ -1,3 +1,6 @@
+export const ALL_GENRES = 'All genres';
+export const TAG_A_NAME = 'A';
+
 export const AppRoute = {
   MAIN_PAGE: '/',
   LOGIN: '/login',
