@@ -1,22 +1,19 @@
-import {getFilteredFilms} from '../film';
-
 export const ActionType = {
-  SET_FILTER: 'genre/setFilter',
-  RESET_FILTER: 'game/resetFilter',
+  CHANGE_FILTER: 'genre/changeFilter',
+  SET_ALL_FILMS: 'genre/setAllFilms',
 };
 
 export const ActionCreator = {
-  resetFilter: () => {
+  changeFilter: (genre) => {
     return {
-      type: ActionType.RESET_FILTER,
+      type: ActionType.CHANGE_FILTER,
+      genre: genre,
     };
   },
-
-  setFilter: (genre) => {
+  setAllFilms: (films) => {
     return {
-      type: ActionType.SET_FILTER,
-      genre: genre,
-      films: getFilteredFilms(genre),
+      type: ActionType.SET_ALL_FILMS,
+      allFilms: films,
     };
   },
 };

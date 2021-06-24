@@ -1,5 +1,4 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import PropTypes from 'prop-types';
@@ -7,21 +6,20 @@ import PropTypes from 'prop-types';
 import FilmProp from '../film/film.prop';
 import {ALL_GENRES, TAG_A_NAME} from '../../const';
 import FilmList from '../film-list/film-list';
+import FilmListTab from '../film-list-tab/film-list-tab';
 
 
-const getGenres = (films) => [ALL_GENRES, ...Object.keys(films.reduce((acc, film) => {
-  acc[film.genre] = null;
-  return acc;
-}, []))];
+const getGenres = (films) => {
+  const genres = new Set();
+  films.map((film) => genres.add(film.genre));
+  return [ALL_GENRES, ...genres];
+};
 
-
-function Catalog({films, filmList, genre, onFilteredFilmList, onAllFilmList}) {
-
-  const showGenreNavTabs = (title) => (
-    <li className={`catalog__genres-item ${genre === title && 'catalog__genres-item--active'}`} key={title}>
-      <Link className="catalog__genres-link" to="/">{title}</Link>
-    </li>
-  );
+function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
+  useEffect(() => {
+    setAllFilms(films);
+    changeFilter(ALL_GENRES);
+  }, [films, setAllFilms, changeFilter]);
 
   const tabClickHandler = (evt) => {
     const newGenre = evt.target.innerText;
@@ -32,18 +30,14 @@ function Catalog({films, filmList, genre, onFilteredFilmList, onAllFilmList}) {
 
     evt.preventDefault();
 
-    if (newGenre === ALL_GENRES) {
-      onAllFilmList();
-    } else {
-      onFilteredFilmList(newGenre);
-    }
+    changeFilter(newGenre);
   };
 
   return (
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list" onClick={tabClickHandler}>
-        {getGenres(films).map(showGenreNavTabs)}
+        {getGenres(films).map((title) => <FilmListTab title={title} genre={genre} key={title} />)}
       </ul>
       <FilmList films={filmList} />
       <div className="catalog__more">
@@ -57,9 +51,8 @@ Catalog.propTypes  = {
   films: PropTypes.arrayOf(FilmProp),
   filmList: PropTypes.arrayOf(FilmProp),
   genre: PropTypes.string.isRequired,
-  onFilteredFilmList: PropTypes.func.isRequired,
-  onAllFilmList: PropTypes.func.isRequired,
-
+  changeFilter: PropTypes.func.isRequired,
+  setAllFilms: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
@@ -71,11 +64,12 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onFilteredFilmList(genre) {
-      dispatch(ActionCreator.setFilter(genre));
+    changeFilter(genre) {
+      dispatch(ActionCreator.changeFilter(genre));
     },
-    onAllFilmList() {
-      dispatch(ActionCreator.resetFilter());
+
+    setAllFilms(films) {
+      dispatch(ActionCreator.setAllFilms(films));
     },
   };
 };
