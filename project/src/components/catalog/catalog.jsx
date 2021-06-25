@@ -10,11 +10,7 @@ import FilmListTab from '../film-list-tab/film-list-tab';
 import ShowMore from '../show-more/show-more';
 
 
-const getGenres = (films) => {
-  const genres = new Set();
-  films.map((film) => genres.add(film.genre));
-  return [ALL_GENRES, ...genres];
-};
+const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
 function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
   useEffect(() => {
