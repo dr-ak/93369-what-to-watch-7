@@ -12,7 +12,7 @@ import ShowMore from '../show-more/show-more';
 
 const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
-function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
+function Catalog({films, filmList, genre, changeFilter, setAllFilms, isShowButton}) {
   useEffect(() => {
     setAllFilms(films);
     changeFilter(ALL_GENRES);
@@ -37,7 +37,7 @@ function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
         {getGenres(films).map((title) => <FilmListTab title={title} genre={genre} key={title} />)}
       </ul>
       <FilmList films={filmList} />
-      <ShowMore />
+      {isShowButton && <ShowMore />}
     </section>
   );
 }
@@ -48,12 +48,14 @@ Catalog.propTypes  = {
   genre: PropTypes.string.isRequired,
   changeFilter: PropTypes.func.isRequired,
   setAllFilms: PropTypes.func.isRequired,
+  isShowButton: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     genre: state.genre,
     filmList: state.films,
+    isShowButton: state.isShowButton,
   };
 };
 

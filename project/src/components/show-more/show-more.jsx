@@ -3,28 +3,21 @@ import {connect} from 'react-redux';
 import {ActionCreator} from '../../store/action';
 import PropTypes from 'prop-types';
 
-function ShowMore({isShowButton, showMore}) {
+function ShowMore({showMore}) {
   const showMoreButtonClick = (evt) => {
     evt.preventDefault();
     showMore();
   };
 
   return (
-    <div className={`catalog__more ${!isShowButton && 'visually-hidden'}`}>
+    <div className="catalog__more">
       <button className="catalog__button" type="button" onClick={showMoreButtonClick}>Show more</button>
     </div>
   );
 }
 
 ShowMore.propTypes  = {
-  isShowButton: PropTypes.bool.isRequired,
   showMore: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isShowButton: state.isShowButton,
-  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -36,4 +29,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export {ShowMore};
-export default connect(mapStateToProps, mapDispatchToProps)(ShowMore);
+export default connect(null, mapDispatchToProps)(ShowMore);
