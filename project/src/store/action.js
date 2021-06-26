@@ -1,6 +1,7 @@
 export const ActionType = {
   CHANGE_FILTER: 'genre/changeFilter',
   SET_ALL_FILMS: 'genre/setAllFilms',
+  SHOW_MORE: 'genre/showMore',
 };
 
 export const ActionCreator = {
@@ -14,6 +15,11 @@ export const ActionCreator = {
     return {
       type: ActionType.SET_ALL_FILMS,
       allFilms: films,
+    };
+  },
+  showMore: () => {
+    return {
+      type: ActionType.SHOW_MORE,
     };
   },
 };

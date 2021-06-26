@@ -7,15 +7,12 @@ import FilmProp from '../film/film.prop';
 import {ALL_GENRES, TAG_A_NAME} from '../../const';
 import FilmList from '../film-list/film-list';
 import FilmListTab from '../film-list-tab/film-list-tab';
+import ShowMore from '../show-more/show-more';
 
 
-const getGenres = (films) => {
-  const genres = new Set();
-  films.map((film) => genres.add(film.genre));
-  return [ALL_GENRES, ...genres];
-};
+const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
-function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
+function Catalog({films, filmList, genre, changeFilter, setAllFilms, isShowButton}) {
   useEffect(() => {
     setAllFilms(films);
     changeFilter(ALL_GENRES);
@@ -40,9 +37,7 @@ function Catalog({films, filmList, genre, changeFilter, setAllFilms}) {
         {getGenres(films).map((title) => <FilmListTab title={title} genre={genre} key={title} />)}
       </ul>
       <FilmList films={filmList} />
-      <div className="catalog__more">
-        <button className="catalog__button" type="button">Show more</button>
-      </div>
+      {isShowButton && <ShowMore />}
     </section>
   );
 }
@@ -53,12 +48,14 @@ Catalog.propTypes  = {
   genre: PropTypes.string.isRequired,
   changeFilter: PropTypes.func.isRequired,
   setAllFilms: PropTypes.func.isRequired,
+  isShowButton: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     genre: state.genre,
     filmList: state.films,
+    isShowButton: state.isShowButton,
   };
 };
 

@@ -1,4 +1,5 @@
 export const ALL_GENRES = 'All genres';
+export const FILM_COUNT = 8;
 export const TAG_A_NAME = 'A';
 
 export const AppRoute = {
