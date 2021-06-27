@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
         isShowButton: newFilms.length > FILM_COUNT,
       };
     }
-    case ActionType.INC_COUNT: {
+    case ActionType.SHOW_MORE: {
       const newCount = state.films.length + FILM_COUNT;
       const newFilms = getFilteredFilms(state.allFilms, state.genre);
 

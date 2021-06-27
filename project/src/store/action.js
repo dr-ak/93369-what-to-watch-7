@@ -1,7 +1,7 @@
 export const ActionType = {
   CHANGE_FILTER: 'genre/changeFilter',
   SET_ALL_FILMS: 'genre/setAllFilms',
-  INC_COUNT: 'genre/showMore',
+  SHOW_MORE: 'genre/showMore',
 };
 
 export const ActionCreator = {
@@ -19,7 +19,7 @@ export const ActionCreator = {
   },
   showMore: () => {
     return {
-      type: ActionType.INC_COUNT,
+      type: ActionType.SHOW_MORE,
     };
   },
 };
