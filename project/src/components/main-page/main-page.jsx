@@ -1,11 +1,12 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import FilmProp from '../film/film.prop';
 import Header from '../header/header';
 import Catalog from '../catalog/catalog';
 import Footer from '../footer/footer';
 
-function MainPage({promoFilm, ...props}) {
+function MainPage({promoFilm}) {
   const {backgroundImage, name, posterImage, genre, released} = promoFilm;
 
   return (
@@ -46,16 +47,22 @@ function MainPage({promoFilm, ...props}) {
         </div>
       </section>
       <div className="page-content">
-        <Catalog {...props} />
+        <Catalog />
         <Footer />
       </div>
     </>
   );
 }
 
-
 MainPage.propTypes  = {
   promoFilm: FilmProp,
 };
 
-export default MainPage;
+const mapStateToProps = (state) => {
+  return {
+    promoFilm: state.promoFilm,
+  };
+};
+
+export {MainPage};
+export default connect(mapStateToProps)(MainPage);

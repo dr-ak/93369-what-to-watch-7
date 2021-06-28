@@ -1,6 +1,9 @@
 import React from 'react';
 import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
+import Loading from '../loading/loading';
 import MainPage from '../main-page/main-page';
 import Login from '../login/login';
 import MyList from '../mylist/mylist';
@@ -13,12 +16,16 @@ import {AppRoute} from '../../const';
 import {getFilm, getSimilarFilms, getMyList} from '../../mocks/films';
 import {getComments} from '../../mocks/comments';
 
-function App(props) {
+function App({isDataLoaded}) {
+  if (!isDataLoaded) {
+    return <Loading />;
+  }
+
   return (
     <BrowserRouter>
       <Switch>
         <Route exact path={AppRoute.MAIN_PAGE}>
-          <MainPage {...props} />
+          <MainPage />
         </Route>
         <Route exact path={AppRoute.LOGIN}>
           <Login />
@@ -51,4 +58,15 @@ function App(props) {
   );
 }
 
-export default App;
+App.propTypes  = {
+  isDataLoaded: PropTypes.bool.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    isDataLoaded: state.isDataLoaded,
+  };
+};
+
+export {App};
+export default connect(mapStateToProps)(App);

@@ -12,11 +12,11 @@ import ShowMore from '../show-more/show-more';
 
 const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
-function Catalog({films, filmList, genre, changeFilter, setAllFilms, isShowButton}) {
-  useEffect(() => {
-    setAllFilms(films);
-    changeFilter(ALL_GENRES);
-  }, [films, setAllFilms, changeFilter]);
+function Catalog({films, allFilms, genre, changeFilter, isShowButton}) {
+  // useEffect(() => {
+  //   setAllFilms(films);
+  //   changeFilter(ALL_GENRES);
+  // }, [films, setAllFilms, changeFilter]);
 
   const tabClickHandler = (evt) => {
     const newGenre = evt.target.innerText;
@@ -34,9 +34,9 @@ function Catalog({films, filmList, genre, changeFilter, setAllFilms, isShowButto
     <section className="catalog">
       <h2 className="catalog__title visually-hidden">Catalog</h2>
       <ul className="catalog__genres-list" onClick={tabClickHandler}>
-        {getGenres(films).map((title) => <FilmListTab title={title} genre={genre} key={title} />)}
+        {getGenres(allFilms).map((title) => <FilmListTab title={title} genre={genre} key={title} />)}
       </ul>
-      <FilmList films={filmList} />
+      <FilmList films={films} />
       {isShowButton && <ShowMore />}
     </section>
   );
@@ -44,17 +44,18 @@ function Catalog({films, filmList, genre, changeFilter, setAllFilms, isShowButto
 
 Catalog.propTypes  = {
   films: PropTypes.arrayOf(FilmProp),
-  filmList: PropTypes.arrayOf(FilmProp),
+  allFilms: PropTypes.arrayOf(FilmProp),
   genre: PropTypes.string.isRequired,
   changeFilter: PropTypes.func.isRequired,
-  setAllFilms: PropTypes.func.isRequired,
   isShowButton: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     genre: state.genre,
-    filmList: state.films,
+    promoFilm: state.promoFilm,
+    films: state.films,
+    allFilms: state.allFilms,
     isShowButton: state.isShowButton,
   };
 };
@@ -63,10 +64,6 @@ const mapDispatchToProps = (dispatch) => {
   return {
     changeFilter(genre) {
       dispatch(ActionCreator.changeFilter(genre));
-    },
-
-    setAllFilms(films) {
-      dispatch(ActionCreator.setAllFilms(films));
     },
   };
 };

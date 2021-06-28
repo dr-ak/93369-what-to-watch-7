@@ -10,3 +10,21 @@ export const AppRoute = {
   FILM_REVIEW: '/films/:id/review',
   PLAYER: '/player/:id',
 };
+
+export const AuthorizationStatus = {
+  AUTH: 'AUTH',
+  NO_AUTH: 'NO_AUTH',
+  UNKNOWN: 'UNKNOWN',
+};
+
+export const APIRoute = {
+  FILMS: '/films',
+  FILM: '/films/:id',
+  SIMILAR_FILMS: '/films/:id/similar',
+  PROMO_FILM: '/promo',
+  FAVORITE_FILMS: '/favorite',
+  CHANGE_STATUS_FILM: '/favorite/:film_id/:status',
+  COMMENTS: '/comments/:film_id',
+  LOGIN: '/login',
+  LOGOUT: '/logout',
+};
