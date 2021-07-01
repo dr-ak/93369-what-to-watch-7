@@ -60,7 +60,7 @@ MainPage.propTypes  = {
 
 const mapStateToProps = (state) => {
   return {
-    promoFilm: state.promoFilm,
+    promoFilm: state.mainPage.promoFilm,
   };
 };
 

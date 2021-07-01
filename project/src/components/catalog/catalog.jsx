@@ -1,6 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {ActionCreator} from '../../store/actions/main-page';
 import PropTypes from 'prop-types';
 
 import FilmProp from '../film/film.prop';
@@ -13,11 +13,6 @@ import ShowMore from '../show-more/show-more';
 const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
 function Catalog({films, allFilms, genre, changeFilter, isShowButton}) {
-  // useEffect(() => {
-  //   setAllFilms(films);
-  //   changeFilter(ALL_GENRES);
-  // }, [films, setAllFilms, changeFilter]);
-
   const tabClickHandler = (evt) => {
     const newGenre = evt.target.innerText;
 
@@ -52,11 +47,11 @@ Catalog.propTypes  = {
 
 const mapStateToProps = (state) => {
   return {
-    genre: state.genre,
-    promoFilm: state.promoFilm,
-    films: state.films,
-    allFilms: state.allFilms,
-    isShowButton: state.isShowButton,
+    genre: state.mainPage.genre,
+    promoFilm: state.mainPage.promoFilm,
+    films: state.mainPage.films,
+    allFilms: state.mainPage.allFilms,
+    isShowButton: state.mainPage.isShowButton,
   };
 };
 

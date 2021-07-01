@@ -7,10 +7,10 @@ import {Provider} from 'react-redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 
 import App from './components/app/app';
-import {ActionCreator} from './store/action';
-import {reducer} from './store/reducer';
+import {ActionCreator} from './store/actions/main-page';
+import reducer from './store/reducers/index';
 import {AuthorizationStatus} from './const';
-import {fetchFilms, fetchPromoFilm} from './store/api-actions';
+import {checkAuth, fetchFilms, fetchPromoFilm} from './store/api-actions';
 
 const api = createAPI(
   () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
@@ -23,6 +23,7 @@ const store = createStore(
   ),
 );
 
+store.dispatch(checkAuth());
 store.dispatch(fetchPromoFilm());
 store.dispatch(fetchFilms());
 

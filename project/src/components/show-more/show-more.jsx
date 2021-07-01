@@ -1,6 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/action';
+import {ActionCreator} from '../../store/actions/main-page';
 import PropTypes from 'prop-types';
 
 function ShowMore({showMore}) {

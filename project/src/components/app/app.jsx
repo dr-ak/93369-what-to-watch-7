@@ -1,7 +1,8 @@
 import React from 'react';
-import {Switch, Route, BrowserRouter} from 'react-router-dom';
+import {Switch, Route, Router} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
+import browserHistory from '../../browser-history';
 
 import Loading from '../loading/loading';
 import MainPage from '../main-page/main-page';
@@ -11,6 +12,7 @@ import Film from '../film/film';
 import FilmAddReview from '../film-add-review/film-add-review';
 import Player from '../player/player';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
+import PrivateRoute from '../private-route/private-route';
 
 import {AppRoute} from '../../const';
 import {getFilm, getSimilarFilms, getMyList} from '../../mocks/films';
@@ -22,7 +24,7 @@ function App({isDataLoaded}) {
   }
 
   return (
-    <BrowserRouter>
+    <Router history={browserHistory}>
       <Switch>
         <Route exact path={AppRoute.MAIN_PAGE}>
           <MainPage />
@@ -30,9 +32,13 @@ function App({isDataLoaded}) {
         <Route exact path={AppRoute.LOGIN}>
           <Login />
         </Route>
-        <Route exact path={AppRoute.MY_LIST}>
-          <MyList films={getMyList()} />
-        </Route>
+        <PrivateRoute
+          exact
+          path={AppRoute.MY_LIST}
+          render={() => (
+            <MyList films={getMyList()} />
+          )}
+        />
         <Route exact path={AppRoute.FILM} render={(data) => (
           <Film
             film={getFilm(data.match.params.id)}
@@ -40,10 +46,13 @@ function App({isDataLoaded}) {
             comments={getComments(data.match.params.id)}
           />)}
         />
-        <Route exact path={AppRoute.FILM_REVIEW} render={(data) => (
-          <FilmAddReview
-            film={getFilm(data.match.params.id)}
-          />)}
+        <PrivateRoute
+          exact
+          path={AppRoute.FILM_REVIEW}
+          render={(data) => (
+            <FilmAddReview
+              film={getFilm(data.match.params.id)}
+            />)}
         />
         <Route exact path={AppRoute.PLAYER} render={(data) => (
           <Player
@@ -54,17 +63,17 @@ function App({isDataLoaded}) {
           <NotFoundScreen />
         </Route>
       </Switch>
-    </BrowserRouter>
+    </Router>
   );
 }
 
 App.propTypes  = {
-  isDataLoaded: PropTypes.bool.isRequired,
+  isDataLoaded: PropTypes.bool,
 };
 
 const mapStateToProps = (state) => {
   return {
-    isDataLoaded: state.isDataLoaded,
+    isDataLoaded: state.mainPage.isDataLoaded,
   };
 };
 

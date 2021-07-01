@@ -3,6 +3,7 @@ import {Link, useLocation, useParams} from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import {AppRoute} from '../../const';
+import Profile from '../profile/profile';
 
 const HeaderClass = {
   FILM_CARD: 'film-card__head',
@@ -51,16 +52,7 @@ function Header({filmName}) {
       </div>
       {myListTitle}
       {breadcrumbs}
-      <ul className="user-block">
-        <li className="user-block__item">
-          <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
-          </div>
-        </li>
-        <li className="user-block__item">
-          <a className="user-block__link">Sign out</a>
-        </li>
-      </ul>
+      <Profile />
     </header>
   );
 }

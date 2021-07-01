@@ -1,6 +1,6 @@
-import {ActionType} from './action';
-import {getFilteredFilms} from '../film';
-import {ALL_GENRES, FILM_COUNT} from '../const';
+import {ActionType} from '../actions/main-page';
+import {getFilteredFilms} from '../../film';
+import {ALL_GENRES, FILM_COUNT} from '../../const';
 
 const initialState = {
   genre: ALL_GENRES,
@@ -11,7 +11,7 @@ const initialState = {
   isDataLoaded: false,
 };
 
-const reducer = (state = initialState, action) => {
+const mainPage = (state = initialState, action) => {
   switch (action.type) {
     case ActionType.LOAD_PROMO_FILM: {
       return {
@@ -57,5 +57,4 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-
-export {reducer};
+export default mainPage;
