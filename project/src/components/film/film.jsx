@@ -1,14 +1,20 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 import FilmProp from './film.prop';
+import CommentProp from '../comment/comment.prop';
 import Header from '../header/header';
 import FilmTabs from '../film-tabs/film-tabs';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
+import {AuthorizationStatus} from '../../const';
 
-function Film(props) {
-  const {backgroundImage, name, genre, released, id, posterImage} = props.film;
+function Film({film, similarFilms, comments, authorizationStatus}) {
+  const {backgroundImage, name, genre, released, id, posterImage} = film;
+
+  const addReviewButton = (<Link className="btn film-card__button" to={`/films/${id}/review`}>Add review</Link>);
 
   return (
     <>
@@ -39,7 +45,7 @@ function Film(props) {
                   </svg>
                   <span>My list</span>
                 </button>
-                <Link className="btn film-card__button" to={`/films/${id}/review`}>Add review</Link>
+                {authorizationStatus === AuthorizationStatus.AUTH && addReviewButton}
               </div>
             </div>
           </div>
@@ -49,14 +55,14 @@ function Film(props) {
             <div className="film-card__poster film-card__poster--big">
               <img src={posterImage} alt={name} width={218} height={327} />
             </div>
-            <FilmTabs {...props} />
+            <FilmTabs film={film} comments={comments} />
           </div>
         </div>
       </section>
       <div className="page-content">
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
-          <FilmList {...props} />
+          <FilmList films={similarFilms} />
         </section>
         <Footer />
       </div>
@@ -66,6 +72,19 @@ function Film(props) {
 
 Film.propTypes  = {
   film: FilmProp,
+  similarFilms: PropTypes.arrayOf(FilmProp),
+  comments: PropTypes.arrayOf(CommentProp),
+  authorizationStatus: PropTypes.string.isRequired,
 };
 
-export default Film;
+const mapStateToProps = (state) => {
+  return {
+    film: state.film.film,
+    similarFilms: state.film.similarFilms,
+    comments: state.film.comments,
+    authorizationStatus: state.user.authorizationStatus,
+  };
+};
+
+export {Film};
+export default connect(mapStateToProps)(Film);

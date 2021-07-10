@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 
 import FilmProp from '../film/film.prop';
 import Header from '../header/header';
@@ -30,4 +31,11 @@ FilmAddReview.propTypes  = {
   film: FilmProp,
 };
 
-export default FilmAddReview;
+const mapStateToProps = (state) => {
+  return {
+    film: state.film.film,
+  };
+};
+
+export {FilmAddReview};
+export default connect(mapStateToProps)(FilmAddReview);

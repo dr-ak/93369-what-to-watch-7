@@ -2,12 +2,12 @@ import React, {useRef} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {login} from '../../store/api-actions';
 
+import {login} from '../../store/api-actions';
 import Footer from '../footer/footer';
 import {AppRoute} from '../../const';
 
-function Login({onSubmit, backPath}) {
+function Login({onSubmit}) {
   const emailRef = useRef();
   const passwordRef = useRef();
 
@@ -63,13 +63,6 @@ function Login({onSubmit, backPath}) {
 
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  backPath: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    backPath: state.user.backPath,
-  };
 };
 
 const mapDispatchToProps = (dispatch) => {
@@ -81,4 +74,4 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export {Login};
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
