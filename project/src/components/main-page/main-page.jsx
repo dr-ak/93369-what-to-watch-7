@@ -1,12 +1,14 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import FilmProp from '../film/film.prop';
 import Header from '../header/header';
 import Catalog from '../catalog/catalog';
 import Footer from '../footer/footer';
+import {getPromoFilm} from '../../store/selectors/main-page';
 
-function MainPage({promoFilm}) {
+function MainPage() {
+  const promoFilm = useSelector(getPromoFilm);
+
   const {backgroundImage, name, posterImage, genre, released} = promoFilm;
 
   return (
@@ -54,15 +56,4 @@ function MainPage({promoFilm}) {
   );
 }
 
-MainPage.propTypes  = {
-  promoFilm: FilmProp,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    promoFilm: state.mainPage.promoFilm,
-  };
-};
-
-export {MainPage};
-export default connect(mapStateToProps)(MainPage);
+export default MainPage;

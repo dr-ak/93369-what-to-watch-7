@@ -15,7 +15,7 @@ function FilmReviews({comments}) {
     </div>
   );
 
-  const rowCount = Math.floor(comments.length / 2) + 1;
+  const rowCount = Math.ceil(comments.length / 2);
 
   return (
     <div className="film-card__reviews film-card__row">

@@ -1,18 +1,28 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/actions/main-page';
-import PropTypes from 'prop-types';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
+import {changeFilter, resetShowMore} from '../../store/actions/main-page';
 
-import FilmProp from '../film/film.prop';
 import {ALL_GENRES, TAG_A_NAME} from '../../const';
 import FilmList from '../film-list/film-list';
 import FilmListTab from '../film-list-tab/film-list-tab';
 import ShowMore from '../show-more/show-more';
+import {getFilms, getAllFilms, getGenre, getShowButtonState} from '../../store/selectors/main-page';
 
 
 const getGenres = (films) => [ALL_GENRES, ...new Set(films.map((film) => film.genre))];
 
-function Catalog({films, allFilms, genre, changeFilter, isShowButton}) {
+function Catalog() {
+  const dispatch = useDispatch();
+
+  const films = useSelector(getFilms);
+  const allFilms = useSelector(getAllFilms);
+  const genre = useSelector(getGenre);
+  const isShowButton = useSelector(getShowButtonState);
+
+  useEffect(() => {
+    dispatch(resetShowMore());
+  }, [dispatch]);
+
   const tabClickHandler = (evt) => {
     const newGenre = evt.target.innerText;
 
@@ -22,7 +32,7 @@ function Catalog({films, allFilms, genre, changeFilter, isShowButton}) {
 
     evt.preventDefault();
 
-    changeFilter(newGenre);
+    dispatch(changeFilter(newGenre));
   };
 
   return (
@@ -37,31 +47,4 @@ function Catalog({films, allFilms, genre, changeFilter, isShowButton}) {
   );
 }
 
-Catalog.propTypes  = {
-  films: PropTypes.arrayOf(FilmProp),
-  allFilms: PropTypes.arrayOf(FilmProp),
-  genre: PropTypes.string.isRequired,
-  changeFilter: PropTypes.func.isRequired,
-  isShowButton: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    genre: state.mainPage.genre,
-    promoFilm: state.mainPage.promoFilm,
-    films: state.mainPage.films,
-    allFilms: state.mainPage.allFilms,
-    isShowButton: state.mainPage.isShowButton,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    changeFilter(genre) {
-      dispatch(ActionCreator.changeFilter(genre));
-    },
-  };
-};
-
-export {Catalog};
-export default connect(mapStateToProps, mapDispatchToProps)(Catalog);
+export default Catalog;

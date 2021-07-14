@@ -1,7 +1,6 @@
 import React from 'react';
 import {Switch, Route, Router} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 import browserHistory from '../../browser-history';
 
 import Loading from '../loading/loading';
@@ -14,11 +13,19 @@ import Player from '../player/player';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {fetchFilm, fetchSimilarFilms, fetchComments} from '../../store/api-actions';
+import {getLoadDataStatus as getLoadDataFilmStatus, getNotFoundPageStatus} from '../../store/selectors/film';
+import {getLoadDataStatus} from '../../store/selectors/main-page';
 
 import {AppRoute} from '../../const';
 import {getFilm, getMyList} from '../../mocks/films';
 
-function App({isNotFoundPage, isDataLoaded, isFilmDataLoaded, loadFilm, loadSimilarFilms, loadComments}) {
+function App() {
+  const dispatch = useDispatch();
+
+  const isDataLoaded = useSelector(getLoadDataStatus);
+  const isNotFoundPage = useSelector(getNotFoundPageStatus);
+  const isFilmDataLoaded = useSelector(getLoadDataFilmStatus);
+
   if (!isDataLoaded) {
     return <Loading />;
   }
@@ -41,9 +48,10 @@ function App({isNotFoundPage, isDataLoaded, isFilmDataLoaded, loadFilm, loadSimi
         />
         <Route exact path={AppRoute.FILM} render={(data) => {
           const filmId = data.match.params.id;
-          loadFilm(filmId);
-          loadSimilarFilms(filmId);
-          loadComments(filmId);
+
+          dispatch(fetchFilm(filmId));
+          dispatch(fetchSimilarFilms(filmId));
+          dispatch(fetchComments(filmId));
 
           if (isNotFoundPage) {
             return <NotFoundScreen />;
@@ -58,7 +66,7 @@ function App({isNotFoundPage, isDataLoaded, isFilmDataLoaded, loadFilm, loadSimi
         />
         <PrivateRoute exact path={AppRoute.FILM_REVIEW} render={(data) => {
           const filmId = data.match.params.id;
-          loadFilm(filmId);
+          dispatch(fetchFilm(filmId));
 
           return <FilmAddReview/>;
         }}
@@ -76,36 +84,4 @@ function App({isNotFoundPage, isDataLoaded, isFilmDataLoaded, loadFilm, loadSimi
   );
 }
 
-App.propTypes  = {
-  isDataLoaded: PropTypes.bool,
-  isFilmDataLoaded: PropTypes.bool,
-  loadFilm: PropTypes.func.isRequired,
-  loadSimilarFilms: PropTypes.func.isRequired,
-  loadComments: PropTypes.func.isRequired,
-  isNotFoundPage: PropTypes.bool.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isDataLoaded: state.mainPage.isDataLoaded,
-    isFilmDataLoaded: state.film.isDataLoaded,
-    isNotFoundPage: state.film.isNotFoundPage,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    loadFilm(filmId) {
-      dispatch(fetchFilm(filmId));
-    },
-    loadSimilarFilms(filmId) {
-      dispatch(fetchSimilarFilms(filmId));
-    },
-    loadComments(filmId) {
-      dispatch(fetchComments(filmId));
-    },
-  };
-};
-
-export {App};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

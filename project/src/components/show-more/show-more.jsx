@@ -1,12 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
-import {ActionCreator} from '../../store/actions/main-page';
-import PropTypes from 'prop-types';
+import {useDispatch} from 'react-redux';
+import {showMore} from '../../store/actions/main-page';
 
-function ShowMore({showMore}) {
+function ShowMore() {
+  const dispatch = useDispatch();
+
   const showMoreButtonClick = (evt) => {
     evt.preventDefault();
-    showMore();
+    dispatch(showMore());
   };
 
   return (
@@ -16,17 +17,4 @@ function ShowMore({showMore}) {
   );
 }
 
-ShowMore.propTypes  = {
-  showMore: PropTypes.func.isRequired,
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    showMore() {
-      dispatch(ActionCreator.showMore());
-    },
-  };
-};
-
-export {ShowMore};
-export default connect(null, mapDispatchToProps)(ShowMore);
+export default ShowMore;

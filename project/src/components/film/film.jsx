@@ -1,17 +1,20 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
-
-import FilmProp from './film.prop';
-import CommentProp from '../comment/comment.prop';
+import {useSelector} from 'react-redux';
 import Header from '../header/header';
 import FilmTabs from '../film-tabs/film-tabs';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
 import {AuthorizationStatus} from '../../const';
+import {getFilm, getSimilarFilms, getComments} from '../../store/selectors/film';
+import {getAuthorizationStatus} from '../../store/selectors/user';
 
-function Film({film, similarFilms, comments, authorizationStatus}) {
+function Film() {
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+  const film = useSelector(getFilm);
+  const similarFilms = useSelector(getSimilarFilms);
+  const comments = useSelector(getComments);
+
   const {backgroundImage, name, genre, released, id, posterImage} = film;
 
   const addReviewButton = (<Link className="btn film-card__button" to={`/films/${id}/review`}>Add review</Link>);
@@ -70,21 +73,4 @@ function Film({film, similarFilms, comments, authorizationStatus}) {
   );
 }
 
-Film.propTypes  = {
-  film: FilmProp,
-  similarFilms: PropTypes.arrayOf(FilmProp),
-  comments: PropTypes.arrayOf(CommentProp),
-  authorizationStatus: PropTypes.string.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    film: state.film.film,
-    similarFilms: state.film.similarFilms,
-    comments: state.film.comments,
-    authorizationStatus: state.user.authorizationStatus,
-  };
-};
-
-export {Film};
-export default connect(mapStateToProps)(Film);
+export default Film;

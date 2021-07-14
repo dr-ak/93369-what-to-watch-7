@@ -1,4 +1,5 @@
-import {ActionType} from '../actions/main-page';
+import {createReducer} from '@reduxjs/toolkit';
+import {loadPromoFilm, loadFilms, changeFilter, showMore, resetShowMore} from '../actions/main-page';
 import {getFilteredFilms} from '../../film';
 import {ALL_GENRES, FILM_COUNT} from '../../const';
 
@@ -11,50 +12,37 @@ const initialState = {
   isDataLoaded: false,
 };
 
-const mainPage = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.LOAD_PROMO_FILM: {
-      return {
-        ...state,
-        promoFilm: action.promoFilm,
-        isDataLoaded: state.allFilms && true,
-      };
-    }
-    case ActionType.LOAD_FILMS: {
-      const newFilms = getFilteredFilms(action.allFilms, state.genre);
+const mainPage = createReducer(initialState, (builder) => {
+  builder
+    .addCase(loadPromoFilm, (state, action) => {
+      state.promoFilm = action.payload;
+      state.isDataLoaded = state.allFilms && true;
+    })
+    .addCase(loadFilms, (state, action) => {
+      const newFilms = getFilteredFilms(action.payload, state.genre);
 
-      return {
-        ...state,
-        allFilms: action.allFilms,
-        films: newFilms.slice(0, FILM_COUNT),
-        isShowButton: newFilms.length > FILM_COUNT,
-        isDataLoaded: state.promoFilm && true,
-      };
-    }
-    case ActionType.CHANGE_FILTER: {
-      const newFilms = getFilteredFilms(state.allFilms, action.genre);
+      state.allFilms = action.payload;
+      state.films =  newFilms.slice(0, FILM_COUNT);
+      state.isShowButton = newFilms.length > FILM_COUNT;
+      state.isDataLoaded = state.promoFilm && true;
+    })
+    .addCase(changeFilter, (state, action) => {
+      const newFilms = getFilteredFilms(state.allFilms, action.payload);
 
-      return {
-        ...state,
-        genre: action.genre,
-        films: newFilms.slice(0, FILM_COUNT),
-        isShowButton: newFilms.length > FILM_COUNT,
-      };
-    }
-    case ActionType.SHOW_MORE: {
+      state.genre = action.payload;
+      state.films = newFilms.slice(0, FILM_COUNT);
+      state.isShowButton = newFilms.length > FILM_COUNT;
+    })
+    .addCase(showMore, (state, action) => {
       const newCount = state.films.length + FILM_COUNT;
       const newFilms = getFilteredFilms(state.allFilms, state.genre);
 
-      return {
-        ...state,
-        count: newCount,
-        films:  newFilms.slice(0, newCount),
-        isShowButton: newFilms.length > newCount,
-      };
-    }
-    default:
-      return state;
-  }
-};
+      state.films = newFilms.slice(0, newCount);
+      state.isShowButton = newFilms.length > newCount;
+    })
+    .addCase(resetShowMore, (state, action) => {
+      state.films = state.allFilms.slice(0, FILM_COUNT);
+    });
+});
 
 export default mainPage;

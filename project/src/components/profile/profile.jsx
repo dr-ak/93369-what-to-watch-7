@@ -1,19 +1,23 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {logout} from '../../store/api-actions';
 import {AuthorizationStatus} from '../../const';
+import {getAuthorizationStatus} from '../../store/selectors/user';
 
 
-function Profile({isAuthUser, logoutClick}) {
+function Profile() {
+  const dispatch = useDispatch();
+
+  const authorizationStatus = useSelector(getAuthorizationStatus);
+
   const logoutClickHandler = (evt) => {
     evt.preventDefault();
-    logoutClick();
+    dispatch(logout());
   };
 
-  return isAuthUser
+  return authorizationStatus === AuthorizationStatus.AUTH
     ? (
       <ul className="user-block">
         <li className="user-block__item">
@@ -33,24 +37,4 @@ function Profile({isAuthUser, logoutClick}) {
     );
 }
 
-Profile.propTypes  = {
-  isAuthUser: PropTypes.bool.isRequired,
-  logoutClick: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    isAuthUser: state.user.authorizationStatus === AuthorizationStatus.AUTH,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logoutClick() {
-      dispatch(logout());
-    },
-  };
-};
-
-export {Profile};
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default Profile;

@@ -1,11 +1,13 @@
 import React from 'react';
-import {connect} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import FilmProp from '../film/film.prop';
 import Header from '../header/header';
 import Form from '../form/form';
+import {getFilm} from '../../store/selectors/film';
 
-function FilmAddReview({film}) {
+function FilmAddReview() {
+  const film = useSelector(getFilm);
+
   const {backgroundImage, name, posterImage} = film;
 
   return (
@@ -27,15 +29,4 @@ function FilmAddReview({film}) {
   );
 }
 
-FilmAddReview.propTypes  = {
-  film: FilmProp,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    film: state.film.film,
-  };
-};
-
-export {FilmAddReview};
-export default connect(mapStateToProps)(FilmAddReview);
+export default FilmAddReview;

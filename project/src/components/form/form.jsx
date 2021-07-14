@@ -1,20 +1,26 @@
 import React from 'react';
 import {useParams} from 'react-router-dom';
-import {useDispatch} from 'react-redux';
-import {connect} from 'react-redux';
-import PropTypes from 'prop-types';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {createComment} from '../../store/api-actions';
 import {changeRating, changeText, createComment as createCommentAction} from '../../store/actions/form';
-
+import {getRating, getText, getFieldsStatus, getSubmitStatus, getSubmitErrorStatus} from '../../store/selectors/form';
 
 const MAX_SCORE = 10;
 
 const scores = new Array(MAX_SCORE).fill(0).map((val, index) => index + 1).reverse();
 
-function Form({rating, comment, isDisabledFields, isDisabledSubmit, onSubmit, isSubmitError, disableForm}) {
+function Form() {
   const filmId = useParams().id;
+
   const dispatch = useDispatch();
+
+  const rating = useSelector(getRating);
+  const comment = useSelector(getText);
+  const isDisabledFields = useSelector(getFieldsStatus);
+  const isDisabledSubmit = useSelector(getSubmitStatus);
+  const isSubmitError = useSelector(getSubmitErrorStatus);
+
   const requestError = (
     <span style={{color: 'red'}}>
       Request error!
@@ -23,8 +29,8 @@ function Form({rating, comment, isDisabledFields, isDisabledSubmit, onSubmit, is
 
   const handleSubmit = (evt) => {
     evt.preventDefault();
-    disableForm();
-    onSubmit(filmId, {rating, comment});
+    dispatch(createCommentAction());
+    dispatch(createComment(filmId, {rating, comment}));
   };
 
   return (
@@ -60,36 +66,4 @@ function Form({rating, comment, isDisabledFields, isDisabledSubmit, onSubmit, is
   );
 }
 
-Form.propTypes  = {
-  rating: PropTypes.number.isRequired,
-  comment: PropTypes.string.isRequired,
-  isDisabledFields: PropTypes.bool.isRequired,
-  isDisabledSubmit: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired,
-  isSubmitError: PropTypes.bool.isRequired,
-  disableForm: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = (state) => {
-  return {
-    rating: state.form.rating,
-    comment: state.form.text,
-    isDisabledFields: state.form.isDisabledFields,
-    isDisabledSubmit: state.form.isDisabledSubmit,
-    isSubmitError: state.form.isSubmitError,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onSubmit(filmId, data) {
-      dispatch(createComment(filmId, data));
-    },
-    disableForm() {
-      dispatch(createCommentAction());
-    },
-  };
-};
-
-export {Form};
-export default connect(mapStateToProps, mapDispatchToProps)(Form);
+export default Form;

@@ -6,13 +6,13 @@ import {Provider} from 'react-redux';
 import {redirect} from './store/middlewares/redirect';
 
 import App from './components/app/app';
-import {ActionCreator} from './store/actions/main-page';
+import {requireAuthorization} from './store/actions/user';
 import reducer from './store/reducers/index';
 import {AuthorizationStatus} from './const';
 import {checkAuth, fetchFilms, fetchPromoFilm} from './store/api-actions';
 
 const api = createAPI(
-  () => store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH)),
+  () => store.dispatch(requireAuthorization(AuthorizationStatus.NO_AUTH)),
 );
 
 const store = configureStore({

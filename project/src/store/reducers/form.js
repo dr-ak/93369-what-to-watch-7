@@ -1,4 +1,5 @@
-import {ActionType} from '../actions/form';
+import {createReducer} from '@reduxjs/toolkit';
+import {changeRating, changeText, createComment, createCommentError, reset} from '../actions/form';
 
 const SimbolRange = {
   MIN: 50,
@@ -13,37 +14,30 @@ const initialState = {
   isSubmitError: false,
 };
 
-const film = (state = initialState, action) => {
-  switch (action.type) {
-    case ActionType.CHANGE_RATING:
+const form = createReducer(initialState, (builder) => {
+  builder
+    .addCase(changeRating, (state, action) => {
+      state.rating = action.payload;
+    })
+    .addCase(changeText, (state, action) => {
+      state.text = action.payload;
+      state.isDisabledSubmit = action.payload.length < SimbolRange.MIN || action.payload.length > SimbolRange.MAX;
+    })
+    .addCase(createComment, (state, action) => {
+      state.isDisabledFields = true;
+      state.isDisabledSubmit = true;
+    })
+    .addCase(createCommentError, (state, action) => {
+      state.isSubmitError = true;
+      state.isDisabledFields = false;
+      state.isDisabledSubmit = false;
+    })
+    .addCase(reset, (state, action) => {
       return {
         ...state,
-        rating: action.payload,
+        ...initialState,
       };
-    case ActionType.CHANGE_TEXT:
-      return {
-        ...state,
-        text: action.payload,
-        isDisabledSubmit: action.payload.length < SimbolRange.MIN || action.payload.length > SimbolRange.MAX,
-      };
-    case ActionType.CREATE_COMMENT:
-      return {
-        ...state,
-        isDisabledFields: true,
-        isDisabledSubmit: true,
-      };
-    case ActionType.CREATE_COMMENT_ERROR:
-      return {
-        ...state,
-        isSubmitError: true,
-        isDisabledFields: false,
-        isDisabledSubmit: false,
-      };
-    case ActionType.RESET:
-      return initialState;
-    default:
-      return state;
-  }
-};
+    });
+});
 
-export default film;
+export default form;
