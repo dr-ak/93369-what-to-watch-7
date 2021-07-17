@@ -12,12 +12,11 @@ import FilmAddReview from '../film-add-review/film-add-review';
 import Player from '../player/player';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {fetchFilm, fetchSimilarFilms, fetchComments} from '../../store/api-actions';
+import {fetchFilm, fetchSimilarFilms, fetchComments, fetchFavoriteFilms} from '../../store/api-actions';
 import {getLoadDataStatus as getLoadDataFilmStatus, getNotFoundPageStatus} from '../../store/selectors/film';
+import {getLoadDataStatus as getLoadDataMyListStatus} from '../../store/selectors/my-list';
 import {getLoadDataStatus} from '../../store/selectors/main-page';
-
 import {AppRoute} from '../../const';
-import {getFilm, getMyList} from '../../mocks/films';
 
 function App() {
   const dispatch = useDispatch();
@@ -25,6 +24,7 @@ function App() {
   const isDataLoaded = useSelector(getLoadDataStatus);
   const isNotFoundPage = useSelector(getNotFoundPageStatus);
   const isFilmDataLoaded = useSelector(getLoadDataFilmStatus);
+  const isMyListDataLoaded = useSelector(getLoadDataMyListStatus);
 
   if (!isDataLoaded) {
     return <Loading />;
@@ -42,9 +42,15 @@ function App() {
         <PrivateRoute
           exact
           path={AppRoute.MY_LIST}
-          render={() => (
-            <MyList films={getMyList()} />
-          )}
+          render={() => {
+            dispatch(fetchFavoriteFilms());
+
+            if (!isMyListDataLoaded) {
+              return <Loading />;
+            }
+
+            return <MyList />;
+          }}
         />
         <Route exact path={AppRoute.FILM} render={(data) => {
           const filmId = data.match.params.id;
@@ -66,15 +72,23 @@ function App() {
         />
         <PrivateRoute exact path={AppRoute.FILM_REVIEW} render={(data) => {
           const filmId = data.match.params.id;
-          dispatch(fetchFilm(filmId));
+
+          if (!isFilmDataLoaded) {
+            dispatch(fetchFilm(filmId));
+          }
 
           return <FilmAddReview/>;
         }}
         />
-        <Route exact path={AppRoute.PLAYER} render={(data) => (
-          <Player
-            film={getFilm(data.match.params.id)}
-          />)}
+        <Route exact path={AppRoute.PLAYER} render={(data) => {
+          const filmId = data.match.params.id;
+
+          if (!isFilmDataLoaded) {
+            dispatch(fetchFilm(filmId));
+          }
+
+          return <Player/>;
+        }}
         />
         <Route>
           <NotFoundScreen />

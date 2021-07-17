@@ -5,6 +5,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {logout} from '../../store/api-actions';
 import {AuthorizationStatus} from '../../const';
 import {getAuthorizationStatus} from '../../store/selectors/user';
+import {AppRoute} from '../../const';
 
 
 function Profile() {
@@ -22,7 +23,9 @@ function Profile() {
       <ul className="user-block">
         <li className="user-block__item">
           <div className="user-block__avatar">
-            <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
+            <Link to={AppRoute.MY_LIST}>
+              <img src="img/avatar.jpg" alt="User avatar" width={63} height={63} />
+            </Link>
           </div>
         </li>
         <li className="user-block__item">

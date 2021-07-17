@@ -2,6 +2,7 @@ import {loadFilms, loadPromoFilm} from './actions/main-page';
 import {requireAuthorization, logout as logoutAction} from './actions/user';
 import {loadFilm, loadSimilarFilms, loadComments, setNotFoundPage} from './actions/film';
 import {reset, createCommentError} from './actions/form';
+import {loadMyList} from './actions/my-list';
 import {AuthorizationStatus, APIRoute} from '../const';
 import {adaptFilmToClient, adaptCommentToClient} from '../adapters';
 import {redirectToRoute} from './actions/redirect';
@@ -34,6 +35,11 @@ export const fetchSimilarFilms = (filmId) => (dispatch, _getState, api) => (
     .then(({data}) => dispatch(loadSimilarFilms(data.map((film) => adaptFilmToClient(film)))))
 );
 
+export const fetchFavoriteFilms = () => (dispatch, _getState, api) => (
+  api.get(APIRoute.FAVORITE_FILMS)
+    .then(({data}) => dispatch(loadMyList(data.map((film) => adaptFilmToClient(film)))))
+);
+
 export const fetchComments = (filmId) => (dispatch, _getState, api) => (
   api.get(APIRoute.COMMENTS.replace(':film_id', filmId))
     .then(({data}) => dispatch(loadComments(data.map((comment) => adaptCommentToClient(comment)))))
@@ -64,4 +70,15 @@ export const createComment = (filmId, newComment) => (dispatch, _getState, api) 
     .then(() => dispatch(redirectToRoute(AppRoute.FILM.replace(':id', filmId))))
     .then(() => dispatch(reset()))
     .catch(() => dispatch(createCommentError()))
+);
+
+export const changeFavoriteStatus = ({filmId, status, isFromMyPage = false}) => (dispatch, _getState, api) => (
+  api.post(APIRoute.CHANGE_STATUS_FILM.replace(':film_id', filmId).replace(':status', status))
+    .then(({data}) => {
+      if (isFromMyPage) {
+        dispatch(loadPromoFilm(adaptFilmToClient(data)));
+      } else {
+        dispatch(loadFilm(adaptFilmToClient(data)));
+      }
+    })
 );

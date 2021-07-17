@@ -1,23 +1,35 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+
 import Header from '../header/header';
 import FilmTabs from '../film-tabs/film-tabs';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
-import {AuthorizationStatus} from '../../const';
+import {changeFavoriteStatus} from '../../store/api-actions';
 import {getFilm, getSimilarFilms, getComments} from '../../store/selectors/film';
 import {getAuthorizationStatus} from '../../store/selectors/user';
+import {redirectToRoute} from '../../store/actions/redirect';
+import {AppRoute, AuthorizationStatus} from '../../const';
 
 function Film() {
+  const dispatch = useDispatch();
+
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const film = useSelector(getFilm);
   const similarFilms = useSelector(getSimilarFilms);
   const comments = useSelector(getComments);
 
-  const {backgroundImage, name, genre, released, id, posterImage} = film;
+  const {backgroundImage, name, genre, released, id, posterImage, isFavorite} = film;
 
-  const addReviewButton = (<Link className="btn film-card__button" to={`/films/${id}/review`}>Add review</Link>);
+  const addReviewButton = (<Link className="btn film-card__button" to={AppRoute.FILM_REVIEW.replace(':id', id)}>Add review</Link>);
+
+  const myListButtonClickHandler = () => {
+    if (authorizationStatus !== AuthorizationStatus.AUTH) {
+      dispatch(redirectToRoute(AppRoute.LOGIN));
+    }
+    dispatch(changeFavoriteStatus({filmId: id, status: isFavorite ? 0 : 1}));
+  };
 
   return (
     <>
@@ -36,15 +48,15 @@ function Film() {
                 <span className="film-card__year">{released}</span>
               </p>
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
+                <Link to={AppRoute.PLAYER.replace(':id', id)} className="btn btn--play film-card__button">
                   <svg viewBox="0 0 19 19" width={19} height={19}>
                     <use xlinkHref="#play-s" />
                   </svg>
                   <span>Play</span>
-                </button>
-                <button className="btn btn--list film-card__button" type="button">
+                </Link>
+                <button className="btn btn--list film-card__button" type="button" onClick={myListButtonClickHandler}>
                   <svg viewBox="0 0 19 20" width={19} height={20}>
-                    <use xlinkHref="#add" />
+                    <use xlinkHref={`#${isFavorite ? 'in-list' : 'add'}`} />
                   </svg>
                   <span>My list</span>
                 </button>
