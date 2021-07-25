@@ -1,24 +1,48 @@
-import React from 'react';
-import {Link} from 'react-router-dom';
+import React, {useEffect} from 'react';
+import {Link, useParams} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 
 import Header from '../header/header';
 import FilmTabs from '../film-tabs/film-tabs';
 import FilmList from '../film-list/film-list';
 import Footer from '../footer/footer';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
+import Loading from '../loading/loading';
 import {changeFavoriteStatus} from '../../store/api-actions';
-import {getFilm, getSimilarFilms, getComments} from '../../store/selectors/film';
+import {getFilm, getSimilarFilms, getComments, getLoadDataStatus, getNotFoundPageStatus} from '../../store/selectors/film';
+import {fetchFilm, fetchSimilarFilms, fetchComments} from '../../store/api-actions';
 import {getAuthorizationStatus} from '../../store/selectors/user';
 import {redirectToRoute} from '../../store/actions/redirect';
 import {AppRoute, AuthorizationStatus} from '../../const';
 
 function Film() {
+
   const dispatch = useDispatch();
+
+  const filmId = useParams().id;
 
   const authorizationStatus = useSelector(getAuthorizationStatus);
   const film = useSelector(getFilm);
   const similarFilms = useSelector(getSimilarFilms);
   const comments = useSelector(getComments);
+  const isDataLoaded = useSelector(getLoadDataStatus);
+  const isNotFoundPage = useSelector(getNotFoundPageStatus);
+
+  useEffect(() => {
+    if (!isDataLoaded) {
+      dispatch(fetchFilm(filmId));
+      dispatch(fetchSimilarFilms(filmId));
+      dispatch(fetchComments(filmId));
+    }
+  }, [filmId, dispatch, isDataLoaded]);
+
+  if (isNotFoundPage) {
+    return <NotFoundScreen />;
+  }
+
+  if (!isDataLoaded) {
+    return <Loading />;
+  }
 
   const {backgroundImage, name, genre, released, id, posterImage, isFavorite} = film;
 

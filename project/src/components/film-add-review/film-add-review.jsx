@@ -1,12 +1,29 @@
-import React from 'react';
-import {useSelector} from 'react-redux';
+import React, {useEffect} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 
 import Header from '../header/header';
 import Form from '../form/form';
+import Loading from '../loading/loading';
+import {fetchFilm} from '../../store/api-actions';
+
 import {getFilm} from '../../store/selectors/film';
 
 function FilmAddReview() {
+  const dispatch = useDispatch();
+
   const film = useSelector(getFilm);
+
+  useEffect(() => {
+    if (!film) {
+      dispatch(fetchFilm());
+    }
+
+    return () => {};
+  }, [film, dispatch]);
+
+  if (!film) {
+    return <Loading />;
+  }
 
   const {backgroundImage, name, posterImage} = film;
 

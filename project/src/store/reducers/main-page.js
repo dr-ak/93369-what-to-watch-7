@@ -42,6 +42,7 @@ const mainPage = createReducer(initialState, (builder) => {
     })
     .addCase(resetShowMore, (state, action) => {
       state.films = state.allFilms.slice(0, FILM_COUNT);
+      state.isShowButton = state.allFilms.length > FILM_COUNT;
     });
 });
 

@@ -1,14 +1,18 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {useHistory} from 'react-router-dom';
-import {useSelector} from 'react-redux';
+import {useHistory, useParams} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {fetchFilm} from '../../store/api-actions';
 import {getFilm} from '../../store/selectors/film';
 import {formatPlayerRuntime} from '../../utils/format-time';
 
 function Player() {
+  const dispatch = useDispatch();
+
   const [isPlaying, setIsPlaying] = useState(false);
 
   const film = useSelector(getFilm);
   const history = useHistory();
+  const filmId = useParams().id;
 
   const {videoLink, previewImage} = film;
 
@@ -18,12 +22,10 @@ function Player() {
   const timeRef = useRef(null);
 
   useEffect(() => {
-    if (isPlaying) {
-      videoRef.current.play();
-    } else {
-      videoRef.current.pause();
+    if (!film) {
+      dispatch(fetchFilm(filmId));
     }
-  }, [isPlaying]);
+  }, [film, dispatch, filmId]);
 
   const exitButtonClickHandler = () => {
     videoRef.current = null;
@@ -62,7 +64,16 @@ function Player() {
           <div ref={timeRef} className="player__time-value"></div>
         </div>
         <div className="player__controls-row">
-          <button type="button" className="player__play" onClick={() => setIsPlaying(!isPlaying)}>
+          <button type="button" className="player__play" onClick={() => {
+            if (isPlaying) {
+              setIsPlaying(false);
+              videoRef.current.pause();
+            } else {
+              setIsPlaying(true);
+              videoRef.current.play();
+            }
+          }}
+          >
             <svg viewBox="0 0 19 19" width={19} height={19}>
               <use xlinkHref={`#${isPlaying ? 'pause' : 'play-s'}`} />
             </svg>
