@@ -1,7 +1,7 @@
 import mainPage from './main-page';
 import {ActionType} from '../actions/main-page';
 
-const FILM_1 = {
+const FILM_FIRST = {
   'name': 'Aviator',
   'poster_image': 'https://7.react.pages.academy/static/film/poster/Aviator.jpg',
   'preview_image': 'https://7.react.pages.academy/static/film/preview/aviator.jpg',
@@ -25,7 +25,7 @@ const FILM_1 = {
   'preview_video_link': 'https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm',
 };
 
-const FILM_2 =   {
+const FILM_SECOND =   {
   'name': 'Matrix',
   'poster_image': 'https://7.react.pages.academy/static/film/poster/matrix.jpg',
   'preview_image': 'https://7.react.pages.academy/static/film/preview/matrix.jpg',
@@ -79,37 +79,37 @@ describe('Main page reducer', () => {
 
     let loadFilmsAction = {
       type: ActionType.LOAD_FILMS,
-      payload: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+      payload: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
     };
 
     expect(mainPage(state, loadFilmsAction))
       .toEqual({
         genre: Genres.ALL_GENRES,
         promoFilm: false,
-        allFilms: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
-        films: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+        allFilms: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
         isShowButton: true,
         isDataLoaded: false,
       });
 
     loadFilmsAction = {
       type: ActionType.LOAD_FILMS,
-      payload: [FILM_1, FILM_2],
+      payload: [FILM_FIRST, FILM_SECOND],
     };
 
     expect(mainPage(state, loadFilmsAction))
       .toEqual({
         genre: Genres.ALL_GENRES,
         promoFilm: false,
-        allFilms: [FILM_1, FILM_2],
-        films: [FILM_1, FILM_2],
+        allFilms: [FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND],
         isShowButton: false,
         isDataLoaded: false,
       });
 
     state = {
       genre: Genres.ALL_GENRES,
-      promoFilm: FILM_1,
+      promoFilm: FILM_FIRST,
       allFilms: false,
       films: [],
       isShowButton: false,
@@ -119,9 +119,9 @@ describe('Main page reducer', () => {
     expect(mainPage(state, loadFilmsAction))
       .toEqual({
         genre: Genres.ALL_GENRES,
-        promoFilm: FILM_1,
-        allFilms: [FILM_1, FILM_2],
-        films: [FILM_1, FILM_2],
+        promoFilm: FILM_FIRST,
+        allFilms: [FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND],
         isShowButton: false,
         isDataLoaded: true,
       });
@@ -139,13 +139,13 @@ describe('Main page reducer', () => {
 
     const loadPromoFilmAction = {
       type: ActionType.LOAD_PROMO_FILM,
-      payload: FILM_1,
+      payload: FILM_FIRST,
     };
 
     expect(mainPage(state, loadPromoFilmAction))
       .toEqual({
         genre: Genres.ALL_GENRES,
-        promoFilm: FILM_1,
+        promoFilm: FILM_FIRST,
         allFilms: false,
         films: [],
         isShowButton: false,
@@ -155,8 +155,8 @@ describe('Main page reducer', () => {
     state = {
       genre: Genres.ALL_GENRES,
       promoFilm: false,
-      allFilms: [FILM_1, FILM_2],
-      films: [FILM_1, FILM_2],
+      allFilms: [FILM_FIRST, FILM_SECOND],
+      films: [FILM_FIRST, FILM_SECOND],
       isShowButton: false,
       isDataLoaded: false,
     };
@@ -164,9 +164,9 @@ describe('Main page reducer', () => {
     expect(mainPage(state, loadPromoFilmAction))
       .toEqual({
         genre: Genres.ALL_GENRES,
-        promoFilm: FILM_1,
-        allFilms: [FILM_1, FILM_2],
-        films: [FILM_1, FILM_2],
+        promoFilm: FILM_FIRST,
+        allFilms: [FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND],
         isShowButton: false,
         isDataLoaded: true,
       });
@@ -175,9 +175,9 @@ describe('Main page reducer', () => {
   it('should set genre and filter films by genre', () => {
     const state = {
       genre: Genres.ALL_GENRES,
-      promoFilm: FILM_1,
-      allFilms: [FILM_1, FILM_2],
-      films: [FILM_1, FILM_2],
+      promoFilm: FILM_FIRST,
+      allFilms: [FILM_FIRST, FILM_SECOND],
+      films: [FILM_FIRST, FILM_SECOND],
       isShowButton: false,
       isDataLoaded: true,
     };
@@ -190,9 +190,9 @@ describe('Main page reducer', () => {
     expect(mainPage(state, changeFilterAction))
       .toEqual({
         genre: Genres.ACTION,
-        promoFilm: FILM_1,
-        allFilms: [FILM_1, FILM_2],
-        films: [FILM_2],
+        promoFilm: FILM_FIRST,
+        allFilms: [FILM_FIRST, FILM_SECOND],
+        films: [FILM_SECOND],
         isShowButton: false,
         isDataLoaded: true,
       });
@@ -202,8 +202,8 @@ describe('Main page reducer', () => {
     const state = {
       genre: Genres.ALL_GENRES,
       promoFilm: false,
-      allFilms: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
-      films: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+      allFilms: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
+      films: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
       isShowButton: true,
       isDataLoaded: false,
     };
@@ -216,8 +216,8 @@ describe('Main page reducer', () => {
       .toEqual({
         genre: Genres.ALL_GENRES,
         promoFilm: false,
-        allFilms: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
-        films: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+        allFilms: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
         isShowButton: false,
         isDataLoaded: false,
       });
@@ -227,8 +227,8 @@ describe('Main page reducer', () => {
     const state = {
       genre: Genres.ALL_GENRES,
       promoFilm: false,
-      allFilms: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
-      films: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+      allFilms: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
+      films: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
       isShowButton: false,
       isDataLoaded: false,
     };
@@ -241,8 +241,8 @@ describe('Main page reducer', () => {
       .toEqual({
         genre: Genres.ALL_GENRES,
         promoFilm: false,
-        allFilms: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
-        films: [FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2, FILM_1, FILM_2],
+        allFilms: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND, FILM_FIRST, FILM_SECOND],
         isShowButton: true,
         isDataLoaded: false,
       });

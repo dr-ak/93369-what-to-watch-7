@@ -7,7 +7,7 @@ import configureStore from 'redux-mock-store';
 import {AuthorizationStatus, AppRoute, ALL_GENRES} from '../../const';
 import App from './app';
 
-const FILM_1 = {
+const FILM_FIRST = {
   'backgroundColor': '#D6CDAF',
   'backgroundImage': 'https://7.react.pages.academy/static/film/background/Aviator.jpg',
   'description': 'A biopic depicting the early years of legendary Director and aviator Howard Hughes\' career from the late 1920s to the mid 1940s.',
@@ -31,7 +31,7 @@ const FILM_1 = {
   'videoLink': 'http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4',
 };
 
-const FILM_2 = {
+const FILM_SECOND = {
   'backgroundColor': '#B9B27E',
   'backgroundImage': 'https://7.react.pages.academy/static/film/background/matrix.jpg',
   'description': 'A computer hacker learns from mysterious rebels about the true nature of his reality and his role in the war against its controllers.',
@@ -89,15 +89,15 @@ describe('Application Routing', () => {
       },
       MAIN_PAGE: {
         genre: ALL_GENRES,
-        promoFilm: FILM_1,
-        allFilms: [FILM_1, FILM_2],
-        films: [FILM_1, FILM_2],
+        promoFilm: FILM_FIRST,
+        allFilms: [FILM_FIRST, FILM_SECOND],
+        films: [FILM_FIRST, FILM_SECOND],
         isShowButton: false,
         isDataLoaded: true,
       },
       FILM: {
-        film: FILM_1,
-        similarFilms: [FILM_1, FILM_2],
+        film: FILM_FIRST,
+        similarFilms: [FILM_FIRST, FILM_SECOND],
         comments: COMMENTS,
         isDataLoaded: true,
         isNotFoundPage: false,
@@ -110,7 +110,7 @@ describe('Application Routing', () => {
         isSubmitError: false,
       },
       MY_LIST: {
-        myList: [FILM_1, FILM_2],
+        myList: [FILM_FIRST, FILM_SECOND],
         isDataLoaded: false,
       },
     });
@@ -137,15 +137,15 @@ describe('Application Routing', () => {
     history.push(AppRoute.MAIN_PAGE);
     render(fakeApp);
 
-    expect(screen.getByText(FILM_1.name, {selector: 'h2'})).toBeInTheDocument();
+    expect(screen.getByText(FILM_FIRST.name, {selector: 'h2'})).toBeInTheDocument();
     expect(screen.getByText(ALL_GENRES)).toBeInTheDocument();
   });
 
   it('should render "Film" when user navigates to "/films/:id"', () => {
-    history.push(AppRoute.FILM.replace(':id', FILM_1.id));
+    history.push(AppRoute.FILM.replace(':id', FILM_FIRST.id));
     render(fakeApp);
 
-    expect(screen.getByText(FILM_1.name, {selector: 'h2'})).toBeInTheDocument();
+    expect(screen.getByText(FILM_FIRST.name, {selector: 'h2'})).toBeInTheDocument();
     expect(screen.getByText('Overview')).toBeInTheDocument();
     expect(screen.getByText('Details')).toBeInTheDocument();
     expect(screen.getByText('Reviews')).toBeInTheDocument();
@@ -159,15 +159,15 @@ describe('Application Routing', () => {
   });
 
   it('should render "FilmAddReview" when user navigates to "/mylist"', () => {
-    history.push(AppRoute.FILM_REVIEW.replace(':id', FILM_1.id));
+    history.push(AppRoute.FILM_REVIEW.replace(':id', FILM_FIRST.id));
     render(fakeApp);
 
-    expect(screen.getByText(FILM_1.name, {selector: 'a'})).toBeInTheDocument();
+    expect(screen.getByText(FILM_FIRST.name, {selector: 'a'})).toBeInTheDocument();
     expect(screen.getByLabelText('Rating 1')).toBeInTheDocument();
   });
 
   it('should render "Player" when user navigates to "/player/:id"', () => {
-    history.push(AppRoute.PLAYER.replace(':id', FILM_1.id));
+    history.push(AppRoute.PLAYER.replace(':id', FILM_FIRST.id));
     render(fakeApp);
 
     expect(screen.getByText('Transpotting', {selector: 'div'})).toBeInTheDocument();
@@ -175,10 +175,10 @@ describe('Application Routing', () => {
   });
 
   it('should render "AddReviewScreen" when user navigates to "/films/:id/review"', () => {
-    history.push(AppRoute.FILM_REVIEW.replace(':id', FILM_1.id));
+    history.push(AppRoute.FILM_REVIEW.replace(':id', FILM_FIRST.id));
     render(fakeApp);
 
-    expect(screen.getByText(FILM_1.name, {selector: 'a'})).toBeInTheDocument();
+    expect(screen.getByText(FILM_FIRST.name, {selector: 'a'})).toBeInTheDocument();
     expect(screen.getByText('Add review', {selector: 'a'})).toBeInTheDocument();
     expect(screen.getByLabelText('Rating 1', { exact: true})).toBeInTheDocument();
   });

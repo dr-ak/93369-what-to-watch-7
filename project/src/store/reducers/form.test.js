@@ -3,9 +3,9 @@ import {ActionType} from '../actions/form';
 
 const RATING = 5;
 
-const TEXT_1 = 'Unfortunately';
-const TEXT_2 = 'Unfortunately we don\'t have a reliable way to tell the true ratings of a movie.';
-const TEXT_3 = 'I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film. I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film. I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film.';
+const TEXT_FIRST = 'Unfortunately';
+const TEXT_SECOND = 'Unfortunately we don\'t have a reliable way to tell the true ratings of a movie.';
+const TEXT_THIRD = 'I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film. I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film. I love this movie. This film is a milestone in cinematography. Great Immersive camera-work. This film is an experience and i has already seen it 4 times and I only see more quality of the film.';
 
 
 describe('Form reducer', () => {
@@ -55,7 +55,7 @@ describe('Form reducer', () => {
 
     let changeTextAction = {
       type: ActionType.CHANGE_TEXT,
-      payload: TEXT_1,
+      payload: TEXT_FIRST,
     };
 
     expect(form(state, changeTextAction))
@@ -63,13 +63,13 @@ describe('Form reducer', () => {
         isDisabledFields: false,
         isDisabledSubmit: true,
         rating: 8,
-        text: TEXT_1,
+        text: TEXT_FIRST,
         isSubmitError: false,
       });
 
     changeTextAction = {
       type: ActionType.CHANGE_TEXT,
-      payload: TEXT_2,
+      payload: TEXT_SECOND,
     };
 
     expect(form(state, changeTextAction))
@@ -77,13 +77,13 @@ describe('Form reducer', () => {
         isDisabledFields: false,
         isDisabledSubmit: false,
         rating: 8,
-        text: TEXT_2,
+        text: TEXT_SECOND,
         isSubmitError: false,
       });
 
     changeTextAction = {
       type: ActionType.CHANGE_TEXT,
-      payload: TEXT_3,
+      payload: TEXT_THIRD,
     };
 
     expect(form(state, changeTextAction))
@@ -91,7 +91,7 @@ describe('Form reducer', () => {
         isDisabledFields: false,
         isDisabledSubmit: true,
         rating: 8,
-        text: TEXT_3,
+        text: TEXT_THIRD,
         isSubmitError: false,
       });
   });
@@ -147,7 +147,7 @@ describe('Form reducer', () => {
       isDisabledFields: true,
       isDisabledSubmit: true,
       rating: 8,
-      text: TEXT_2,
+      text: TEXT_SECOND,
       isSubmitError: false,
     };
 
